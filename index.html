@@ -490,9 +490,14 @@
         </div>
         <p>E-Mail: <a href="mailto:info@fragdenkibot.de">info@fragdenkibot.de</a></p>
       </div>
-      <form class="formular" name="kontakt" method="POST" action="/danke.html" data-netlify="true" netlify-honeypot="bot-feld">
-        <input type="hidden" name="form-name" value="kontakt">
-        <p hidden><label>Nicht ausfüllen<input name="bot-feld" tabindex="-1" autocomplete="off"></label></p>
+      <!-- Versand über Web3Forms (https://web3forms.com); nach dem Absenden geht es zur Danke-Seite -->
+      <form class="formular" name="kontakt" method="POST" action="https://api.web3forms.com/submit">
+        <input type="hidden" name="access_key" value="3129194d-b096-413f-9870-8186a0a6860a">
+        <input type="hidden" name="subject" value="Neue Anfrage über fragdenkibot.de">
+        <input type="hidden" name="from_name" value="fragdenkibot.de Kontaktformular">
+        <input type="hidden" name="redirect" value="https://fragdenkibot.de/danke.html">
+        <!-- Spamschutz: Menschen sehen dieses Feld nicht, Bots kreuzen es oft an -->
+        <input type="checkbox" name="botcheck" class="hidden" style="display: none;" tabindex="-1" autocomplete="off">
         <label for="kontakt-name">Name / Ansprechpartner
           <input name="name" id="kontakt-name" type="text" autocomplete="name" placeholder="z. B. Lisa Berger…" required></label>
         <label for="kontakt-website">Ihre Website
