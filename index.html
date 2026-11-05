@@ -82,6 +82,9 @@
   .nav ul { display: flex; gap: 32px; list-style: none; margin: 0 0 0 auto; padding: 0; }
   .nav ul a { color: var(--tinte); text-decoration: none; font-weight: 500; }
   .nav ul a:hover { color: var(--gruen); }
+  /* Menü-Knopf und der Menüpunkt "Kontakt" nur auf dem Handy */
+  .menue-knopf { display: none; }
+  .nav .nur-mobil { display: none; }
 
   /* Hero */
   .hero { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 36px 56px; padding-top: clamp(40px, 6vw, 72px); padding-bottom: var(--abstand); }
@@ -91,6 +94,7 @@
   .knoepfe { display: flex; flex-wrap: wrap; gap: 10px; }
   /* kompakter, damit beide Buttons auf dem Desktop in eine Zeile passen */
   .knoepfe .btn { padding: 0 20px; font-size: .97rem; }
+  .demo-hinweis { flex-basis: 100%; color: var(--grau); font-size: .8rem; line-height: 1.4; }
   .eckdaten { display: grid; grid-template-columns: repeat(2, auto); justify-content: start; gap: 16px 40px; margin: 8px 0 0; }
   .eckdaten div { display: flex; flex-direction: column; }
   .eckdaten dt { font-size: 1.35rem; font-weight: 700; letter-spacing: -.02em; order: -1; }
@@ -242,26 +246,56 @@
   footer a { color: #fff; }
   footer a:hover { color: var(--gruen-hell); }
 
-  /* Auf schmalen Bildschirmen die echte Chatbase-Blase ausblenden, solange das Beispiel-Fenster sichtbar ist */
+  /* Eigener Chat-Knopf: Chatbase wird erst nach einem Klick darauf geladen (vorher keine Verbindung, kein Cookie).
+     Desktop: Pille 188 x 42px in Grün #2A792C, darüber ein kleiner Datenschutz-Hinweis. */
+  .chat-start { position: fixed; right: 16px; bottom: 16px; z-index: 2147483000; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; pointer-events: none; transition: opacity .3s, visibility .3s; }
+  .chat-start > * { pointer-events: auto; }
+  .chat-hinweis { max-width: 210px; margin: 0; padding: 5px 10px; border-radius: 10px; background: rgba(255,255,255,.94); box-shadow: 0 2px 10px rgba(19,33,28,.14); color: var(--grau); font-size: 11.5px; line-height: 1.35; text-align: right; }
+  .chat-hinweis a { color: var(--gruen-dunkel); font-weight: 600; }
+  .chat-knopf { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 188px; height: 42px; padding: 0 16px; border: 0; border-radius: 9999px; background: #2A792C; color: #fff; font: 600 15px/1 inherit; font-family: inherit; cursor: pointer; box-shadow: 0 6px 18px -6px rgba(19,33,28,.5); touch-action: manipulation; transition: background-color .15s, transform .1s; }
+  .chat-knopf:hover { background: #22631f; }
+  .chat-knopf:active { transform: scale(.97); }
+  .chat-knopf:focus-visible { outline: 3px solid var(--tinte); outline-offset: 3px; }
+  .chat-knopf svg { width: 18px; height: 18px; flex: none; }
+  .chat-knopf .zu { display: none; }
+  .chat-knopf[aria-expanded="true"] .auf, .chat-knopf[aria-expanded="true"] .chat-text { display: none; }
+  .chat-knopf[aria-expanded="true"] .zu { display: block; }
+  .chat-knopf[aria-busy="true"] { cursor: progress; opacity: .85; }
+  /* Ist der Chat offen, braucht es den Hinweis nicht mehr (das Fenster liegt darüber) */
+  body.chat-offen .chat-hinweis { display: none; }
+
+  /* Sanftes Pulsieren: ein heller Ring breitet sich alle 6 Sekunden einmal aus */
+  .chat-knopf::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 0 0 0 rgba(42,121,44,.55); animation: chat-puls 6s ease-out 2s infinite; pointer-events: none; }
+  @keyframes chat-puls {
+    0% { box-shadow: 0 0 0 0 rgba(42,121,44,.55); }
+    25% { box-shadow: 0 0 0 14px rgba(42,121,44,0); }
+    100% { box-shadow: 0 0 0 14px rgba(42,121,44,0); }
+  }
+  body.chat-offen .chat-knopf::after { animation: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .chat-knopf::after { animation: none !important; }
+    .chat-start, .chat-knopf { transition: none !important; }
+  }
+
+  /* Chatbase bringt einen eigenen Knopf mit; den blenden wir aus, unser Knopf öffnet und schließt den Chat */
+  #chatbase-bubble-button { display: none !important; }
+
+  /* Auf schmalen Bildschirmen den Chat-Knopf ausblenden, solange das Beispiel-Fenster sichtbar ist */
   @media (max-width: 1149px) {
-    body.beispiel-sichtbar #chatbase-bubble-button,
+    body.beispiel-sichtbar:not(.chat-offen) .chat-start,
     body.beispiel-sichtbar #chatbase-message-bubbles { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
   }
 
-  /* Chatbase-Knopf im Format des Netlify-Hinweises (ca. 170 x 38px, 16px vom Rand), 10 % größer: 188 x 42px.
-     Er liegt mittig genau über dem Netlify-Hinweis und verdeckt ihn (höchster z-index).
-     Chatbase setzt Größe und Lage inline ohne !important, deshalb greifen diese Regeln. */
-  #chatbase-bubble-button { right: 7px !important; left: auto !important; bottom: 14px !important; width: 188px !important; height: 42px !important; border-radius: 9999px !important; justify-content: center !important; gap: 8px !important; z-index: 2147483647 !important; }
-  #chatbase-bubble-button > div:first-child { width: 28px !important; height: 28px !important; margin: 0 !important; }
-  #chatbase-bubble-button svg { width: 16px !important; height: 16px !important; }
-  #chatbase-bubble-label { font-size: 15px !important; font-weight: 600 !important; line-height: 1 !important; }
-  /* Geöffnet (aria-expanded="true") will Chatbase einen 55px runden Knopf: wir lassen die 188px breite Pille stehen,
-     damit der Netlify-Hinweis auch bei offenem Chat verdeckt bleibt; nur der Text weicht dem Schließen-Pfeil */
-  #chatbase-bubble-button[aria-expanded="true"] #chatbase-bubble-label { display: none !important; }
-  /* Auf dem Handy ist der offene Chat bildschirmfüllend: Knopf dann unter das Fenster legen,
-     sonst fängt er unsichtbar die Klicks auf Eingabefeld und Senden-Knopf ab */
+  /* Handy: runder Knopf mit Chat-Symbol, Hinweis klein links daneben */
   @media (max-width: 767px) {
-    #chatbase-bubble-button[aria-expanded="true"] { z-index: 2147483645 !important; }
+    .chat-start { right: 12px; bottom: 12px; flex-direction: row; align-items: center; gap: 8px; }
+    .chat-hinweis { max-width: 150px; font-size: 10.5px; padding: 4px 8px; }
+    .chat-knopf { width: 52px; height: 52px; padding: 0; border-radius: 50%; }
+    .chat-knopf svg { width: 24px; height: 24px; }
+    .chat-knopf .chat-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    /* Der offene Chat ist bildschirmfüllend und bringt seinen eigenen Schließen-Knopf mit:
+       unser Knopf liegt dann darunter, damit er keine Klicks im Chat abfängt */
+    body.chat-offen .chat-start { z-index: 1; visibility: hidden; }
   }
   #chatbase-message-bubbles { right: 16px !important; left: auto !important; bottom: 70px !important; }
   /* Fenster nur über den Knopf schieben, Größe und Aussehen bleiben; auf dem Handy öffnet Chatbase es bildschirmfüllend */
@@ -282,7 +316,18 @@
   }
   @media (max-width: 760px) {
     .nav ul { display: none; }
-    .nav { height: 64px; }
+    .nav { height: 64px; justify-content: flex-start; gap: 10px; }
+    .marke { margin-right: auto; }
+    /* Einfaches Menü: Knopf rechts, Liste klappt unter der Kopfzeile auf */
+    .menue-knopf { display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex: none; min-width: 44px; height: 42px; padding: 0 12px; border: 2px solid var(--tinte); border-radius: 999px; background: transparent; color: var(--tinte); font: 600 .95rem/1 inherit; font-family: inherit; cursor: pointer; touch-action: manipulation; }
+    .menue-knopf svg { width: 18px; height: 18px; }
+    .menue-knopf .zu { display: none; }
+    .nav.offen .menue-knopf .auf { display: none; }
+    .nav.offen .menue-knopf .zu { display: block; }
+    .nav.offen ul { display: flex; flex-direction: column; gap: 0; position: absolute; top: 100%; left: 0; right: 0; margin: 0; padding: 4px var(--rand) 14px; background: var(--grund); box-shadow: 0 14px 24px -14px rgba(19,33,28,.35); }
+    .nav.offen ul a { display: block; padding: 13px 0; border-bottom: 1px solid var(--flaeche); font-size: 1.1rem; }
+    .nav.offen ul li:last-child a { border-bottom: 0; }
+    .nav .nur-mobil { display: list-item; }
     .browser-body { height: 430px; margin: 0 6px 6px; }
     .s-links { display: none; }
     .s-hero { grid-template-columns: 1fr; padding: 18px 16px 12px; gap: 12px; }
@@ -298,6 +343,10 @@
     .ich { grid-template-columns: 64px minmax(0, 1fr); }
     .ich img { width: 64px; height: 64px; grid-row: span 2; }
     .ich p:last-child { grid-column: 1 / -1; }
+  }
+  /* Neben dem Menü-Knopf passt der Kopfzeilen-Button erst ab 580px – derselbe Button steht direkt darunter im Hero */
+  @media (max-width: 579px) {
+    .nav .btn.klein { display: none; }
   }
   @media (max-width: 420px) {
     .knoepfe .btn { flex: 1 1 100%; }
@@ -328,12 +377,18 @@
       <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M7 4h18a5 5 0 0 1 5 5v11a5 5 0 0 1-5 5H15l-7 5v-5H7a5 5 0 0 1-5-5V9a5 5 0 0 1 5-5z"/><circle cx="10.5" cy="14.5" r="2" fill="#fff"/><circle cx="16" cy="14.5" r="2" fill="#fff"/><circle cx="21.5" cy="14.5" r="2" fill="#fff"/></svg>
       <span translate="no">fragdenkibot.de</span>
     </a>
-    <ul>
+    <ul id="hauptmenue">
       <li><a href="#vorteile">Vorteile</a></li>
       <li><a href="#preise">Preise</a></li>
       <li><a href="#faq">FAQ</a></li>
+      <li class="nur-mobil"><a href="#kontakt">Kontakt</a></li>
     </ul>
     <a class="btn klein" href="#kontakt">Probe-Assistent anfordern</a>
+    <button class="menue-knopf" type="button" aria-expanded="false" aria-controls="hauptmenue">
+      <svg class="auf" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>
+      <svg class="zu" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>
+      <span>Menü</span>
+    </button>
   </nav>
 </header>
 
@@ -345,6 +400,7 @@
       <div class="knoepfe">
         <a class="btn" href="#kontakt">Probe-Assistent anfordern</a>
         <button class="btn zweit" type="button" id="demo-ausprobieren">Demo ausprobieren</button>
+        <p class="demo-hinweis">Die Demo läuft über Chatbase (USA): Erst beim Öffnen werden Daten dorthin übertragen. <a href="datenschutz.html#chatbase">Datenschutz</a></p>
       </div>
       <dl class="eckdaten">
         <div><dt>24/7</dt><dd>erreichbar</dd></div>
@@ -529,11 +585,17 @@
 <script>
   const ruhig = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // "Demo ausprobieren": öffnet den echten Chatbase-Bot. Ist er blockiert, geht es zum Kontaktformular.
-  document.getElementById('demo-ausprobieren').addEventListener('click', () => {
-    if (window.chatbase && document.getElementById('chatbase-bubble-button')) window.chatbase('open');
-    else location.hash = '#kontakt';
-  });
+  // "Demo ausprobieren": lädt und öffnet den echten Chatbase-Bot (siehe chatOeffnen weiter unten).
+  // Lässt er sich nicht laden, geht es zum Kontaktformular.
+  document.getElementById('demo-ausprobieren').addEventListener('click', () => window.fdkbChatOeffnen());
+
+  // Handy-Menü auf- und zuklappen; nach Klick auf einen Eintrag oder mit Esc schließt es
+  const nav = document.querySelector('.nav'), menueKnopf = nav.querySelector('.menue-knopf');
+  function menue(auf) { nav.classList.toggle('offen', auf); menueKnopf.setAttribute('aria-expanded', auf); }
+  menueKnopf.addEventListener('click', () => menue(!nav.classList.contains('offen')));
+  nav.querySelectorAll('#hauptmenue a').forEach(a => a.addEventListener('click', () => menue(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && nav.classList.contains('offen')) { menue(false); menueKnopf.focus(); } });
+  document.addEventListener('click', e => { if (nav.classList.contains('offen') && !nav.contains(e.target)) menue(false); });
 
   // Schaufenster: fiktive Websites verschiedener Branchen, der Beispiel-Chat erscheint jeweils unten rechts
   const seiten = [
@@ -718,13 +780,79 @@
   ['r-anfragen', 'r-quote', 'r-wert'].forEach(id => $r(id).addEventListener('input', rechne));
   rechne();
 </script>
-<!-- Chatbase-Chatbot: Chatblase unten rechts -->
-<script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="ybUJicns4thyEVb9f0X7W";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-</script>
-<!-- Chat-Verlauf zurücksetzen, wenn die letzte Nachricht mehr als 4 Stunden her ist -->
+<!-- Eigener Chat-Knopf: Chatbase wird erst nach dem Klick geladen -->
+<div class="chat-start" id="chat-start">
+  <p class="chat-hinweis" id="chat-hinweis">Beim Öffnen werden Daten an Chatbase (USA) übertragen. <a href="datenschutz.html#chatbase">Datenschutz</a></p>
+  <button class="chat-knopf" id="chat-knopf" type="button" aria-expanded="false" aria-describedby="chat-hinweis">
+    <svg class="auf" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h14a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-7l-5 4v-4H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3z"/><circle cx="8" cy="10.5" r="1.4" fill="#2A792C"/><circle cx="12" cy="10.5" r="1.4" fill="#2A792C"/><circle cx="16" cy="10.5" r="1.4" fill="#2A792C"/></svg>
+    <svg class="zu" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    <span class="chat-text">Chat</span>
+  </button>
+</div>
+<!-- Chatbase-Chatbot: wird erst geladen, wenn jemand den Chat-Knopf (oder "Demo ausprobieren") anklickt.
+     Vorher geht keine Anfrage an chatbase.co und es wird kein Cookie gesetzt. -->
 <script>
 (function () {
+  const knopf = document.getElementById('chat-knopf');
+  let geladen = false;
+
+  function chatbaseLaden() {
+    if (geladen) return;
+    geladen = true;
+    knopf.setAttribute('aria-busy', 'true');
+    // Offizieller Chatbase-Einbettungscode, nur eben erst nach dem Klick ausgeführt
+    if (!window.chatbase || window.chatbase('getState') !== 'initialized') {
+      window.chatbase = (...arguments) => { if (!window.chatbase.q) { window.chatbase.q = []; } window.chatbase.q.push(arguments); };
+      window.chatbase = new Proxy(window.chatbase, { get(target, prop) { if (prop === 'q') { return target.q; } return (...args) => target(prop, ...args); } });
+    }
+    const script = document.createElement('script');
+    script.src = 'https://www.chatbase.co/embed.min.js';
+    script.id = 'ybUJicns4thyEVb9f0X7W';
+    script.domain = 'www.chatbase.co';
+    // Blockiert (z. B. Werbeblocker oder offline): zurück auf Anfang und zum Kontaktformular
+    script.onerror = function () {
+      geladen = false;
+      script.remove();
+      knopf.removeAttribute('aria-busy');
+      location.hash = '#kontakt';
+    };
+    document.body.appendChild(script);
+    verlaufPruefen();
+  }
+
+  // Öffnet den Chat (lädt ihn beim ersten Mal); auch für den Knopf "Demo ausprobieren"
+  window.fdkbChatOeffnen = function () {
+    chatbaseLaden();
+    window.chatbase('open');
+  };
+
+  knopf.addEventListener('click', function () {
+    if (knopf.getAttribute('aria-expanded') === 'true') window.chatbase('close');
+    else window.fdkbChatOeffnen();
+  });
+
+  // Unser Knopf zeigt an, ob das Chatbase-Fenster offen ist
+  function zustandAnzeigen(fenster) {
+    const offen = fenster.style.display !== 'none';
+    knopf.setAttribute('aria-expanded', offen);
+    knopf.setAttribute('aria-label', offen ? 'Chat schließen' : 'Chat öffnen');
+    document.body.classList.toggle('chat-offen', offen);
+    knopf.removeAttribute('aria-busy');
+  }
+  const fensterSucher = new MutationObserver(function () {
+    const fenster = document.getElementById('chatbase-bubble-window');
+    if (!fenster) return;
+    fensterSucher.disconnect();
+    zustandAnzeigen(fenster);
+    new MutationObserver(function () { zustandAnzeigen(fenster); }).observe(fenster, { attributes: true, attributeFilter: ['style'] });
+  });
+  fensterSucher.observe(document.body, { childList: true });
+  knopf.setAttribute('aria-label', 'Chat öffnen');
+})();
+
+// Chat-Verlauf zurücksetzen, wenn die letzte Nachricht mehr als 4 Stunden her ist.
+// Läuft erst, wenn Chatbase nach dem Klick geladen wird.
+function verlaufPruefen() {
   const SCHLUESSEL = 'fdkb-letzte-chat-nachricht';
   const VIER_STUNDEN = 4 * 60 * 60 * 1000;
 
@@ -738,11 +866,10 @@
     return !!letzte && Date.now() - letzte > VIER_STUNDEN;
   }
 
-  // Beim Laden der Seite entscheiden, ob der alte Verlauf weg soll
+  // Beim Laden des Chats entscheiden, ob der alte Verlauf weg soll
   const zuruecksetzen = zuAlt();
 
   // 1. Sobald Chatbase seine Blase angelegt hat, die Nachrichten-Listener anmelden
-  //    (getestet: das klappt schon vor dem ersten Öffnen des Chats).
   const listenerWarten = setInterval(function () {
     if (!document.getElementById('chatbase-bubble-button')) return;
     clearInterval(listenerWarten);
@@ -762,7 +889,7 @@
       try { localStorage.removeItem(SCHLUESSEL); } catch (e) {}
     }, 300);
   }
-})();
+}
 </script>
 </body>
 </html>
