@@ -247,11 +247,14 @@
   footer a:hover { color: var(--gruen-hell); }
 
   /* Eigener Chat-Knopf: Chatbase wird erst nach einem Klick darauf geladen (vorher keine Verbindung, kein Cookie).
-     Desktop: Pille 188 x 42px in Grün #2A792C, darüber ein kleiner Datenschutz-Hinweis. */
-  .chat-start { position: fixed; right: 16px; bottom: 16px; z-index: 2147483000; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; pointer-events: none; transition: opacity .3s, visibility .3s; }
+     Desktop: Pille 188 x 42px in Grün #2A792C, darunter ein unauffälliger einzeiliger Datenschutz-Hinweis.
+     Grau #808080 ohne Hintergrund: Kontrast mind. 3,49:1 auf Weiß, #eef2ee und dem dunklen #13211c. */
+  .chat-start { position: fixed; right: 16px; bottom: 6px; z-index: 2147483000; display: flex; flex-direction: column; align-items: flex-end; gap: 3px; pointer-events: none; transition: opacity .3s, visibility .3s; }
   .chat-start > * { pointer-events: auto; }
-  .chat-hinweis { max-width: 210px; margin: 0; padding: 5px 10px; border-radius: 10px; background: rgba(255,255,255,.94); box-shadow: 0 2px 10px rgba(19,33,28,.14); color: var(--grau); font-size: 11.5px; line-height: 1.35; text-align: right; }
-  .chat-hinweis a { color: var(--gruen-dunkel); font-weight: 600; }
+  .chat-hinweis { margin: 0; padding: 0; color: #808080; font-size: 10px; font-weight: 400; line-height: 1.3; white-space: nowrap; text-align: right; }
+  .chat-hinweis a { color: inherit; font-weight: 400; text-decoration: underline; text-underline-offset: 2px; }
+  .chat-hinweis a:hover { color: inherit; }
+  .chat-hinweis .kurz { display: none; }
   .chat-knopf { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 188px; height: 42px; padding: 0 16px; border: 0; border-radius: 9999px; background: #2A792C; color: #fff; font: 600 15px/1 inherit; font-family: inherit; cursor: pointer; box-shadow: 0 6px 18px -6px rgba(19,33,28,.5); touch-action: manipulation; transition: background-color .15s, transform .1s; }
   .chat-knopf:hover { background: #22631f; }
   .chat-knopf:active { transform: scale(.97); }
@@ -286,10 +289,11 @@
     body.beispiel-sichtbar #chatbase-message-bubbles { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
   }
 
-  /* Handy: runder Knopf mit Chat-Symbol, Hinweis klein links daneben */
+  /* Handy: runder Knopf mit Chat-Symbol, darunter der Hinweis in Kurzform */
   @media (max-width: 767px) {
-    .chat-start { right: 12px; bottom: 12px; flex-direction: row; align-items: center; gap: 8px; }
-    .chat-hinweis { max-width: 150px; font-size: 10.5px; padding: 4px 8px; }
+    .chat-start { right: 12px; bottom: 4px; }
+    .chat-hinweis .lang { display: none; }
+    .chat-hinweis .kurz { display: inline; }
     .chat-knopf { width: 52px; height: 52px; padding: 0; border-radius: 50%; }
     .chat-knopf svg { width: 24px; height: 24px; }
     .chat-knopf .chat-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -782,12 +786,12 @@
 </script>
 <!-- Eigener Chat-Knopf: Chatbase wird erst nach dem Klick geladen -->
 <div class="chat-start" id="chat-start">
-  <p class="chat-hinweis" id="chat-hinweis">Beim Öffnen werden Daten an Chatbase (USA) übertragen. <a href="datenschutz.html#chatbase">Datenschutz</a></p>
   <button class="chat-knopf" id="chat-knopf" type="button" aria-expanded="false" aria-describedby="chat-hinweis">
     <svg class="auf" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h14a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-7l-5 4v-4H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3z"/><circle cx="8" cy="10.5" r="1.4" fill="#2A792C"/><circle cx="12" cy="10.5" r="1.4" fill="#2A792C"/><circle cx="16" cy="10.5" r="1.4" fill="#2A792C"/></svg>
     <svg class="zu" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
     <span class="chat-text">Chat</span>
   </button>
+  <p class="chat-hinweis" id="chat-hinweis"><span class="lang">Beim Öffnen Datenübertragung an</span><span class="kurz">Daten an</span> Chatbase · <a href="datenschutz.html#chatbase">Datenschutz</a></p>
 </div>
 <!-- Chatbase-Chatbot: wird erst geladen, wenn jemand den Chat-Knopf (oder "Demo ausprobieren") anklickt.
      Vorher geht keine Anfrage an chatbase.co und es wird kein Cookie gesetzt. -->
