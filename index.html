@@ -161,6 +161,7 @@
   .groesser { margin-top: 20px; font-size: 1.05rem; }
   .upgrade-satz { font-size: 1.2rem; color: var(--tinte); font-weight: 500; margin-top: -4px; }
   .upgrade-kopf { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin: clamp(56px, 7vw, 96px) 0 clamp(24px, 3vw, 36px); }
+  .upgrade-kopf.erster { margin-top: 0; }
   .upgrade-titel { font-size: clamp(1.8rem, 3.6vw, 3rem); letter-spacing: -.035em; }
   .upgrade-text { flex-basis: 100%; color: var(--grau); font-size: 1.05rem; }
   .angebot-hinweis { display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; background: #fff1ea; color: var(--glut-text); font-weight: 600; font-size: .95rem; }
@@ -433,17 +434,21 @@
 
   <section class="getoent" id="preise" aria-labelledby="preise-titel">
     <div class="wrap">
-      <div class="kopf">
-        <h2 id="preise-titel">Preise</h2>
-        <p>Erst die Webseite, auf Wunsch der Chat-Assistent dazu.</p>
+      <div class="upgrade-kopf erster">
+        <h2 id="preise-titel" class="upgrade-titel">Ihre neue Webseite: klare Pakete</h2>
+        <p class="upgrade-text upgrade-satz">Einmaliger Festpreis. Sie sehen vorab, was Sie bekommen.</p>
       </div>
       <div class="plaene">
         <div class="plan">
           <h3>Basis</h3>
           <p class="preis"><small>ab</small> 399 €</p>
           <ul>
-            <li>Eine übersichtliche Startseite mit Leistungen, Kontakt und Anfahrt</li>
+            <li>Übersichtliche Startseite mit Leistungen, Kontakt und Anfahrt</li>
             <li>Fürs Handy optimiert</li>
+            <li>Kontaktformular</li>
+            <li>Google-Maps-Karte</li>
+            <li>Impressum und Datenschutz eingebunden</li>
+            <li>Ihre Wünsche bis zur Freigabe umgesetzt</li>
           </ul>
           <a class="btn hell voll" href="#kontakt">Anfrage senden</a>
         </div>
@@ -452,8 +457,10 @@
           <p class="empfehlung">Meine Empfehlung</p>
           <p class="preis"><small>ab</small> 799 €</p>
           <ul>
-            <li>Mehrere Unterseiten, z. B. Leistungen, Galerie, Öffnungszeiten</li>
-            <li>Kontaktformular</li>
+            <li>Alles aus Basis</li>
+            <li>Mehrere Unterseiten, z. B. Leistungen, Galerie, Öffnungszeiten, Team</li>
+            <li>Bildergalerie</li>
+            <li>Grundlegende Google-Optimierung</li>
           </ul>
           <a class="btn voll" href="#kontakt">Anfrage senden</a>
         </div>
@@ -461,8 +468,10 @@
           <h3>Pro</h3>
           <p class="preis"><small>ab</small> 1.299 €</p>
           <ul>
-            <li>Größerer Umfang</li>
-            <li>Texte und Bilder inklusive</li>
+            <li>Alles aus Standard</li>
+            <li>Größerer Umfang mit mehr Inhalten</li>
+            <li>Texte und Bilder inklusive (auf Wunsch KI-Bilder)</li>
+            <li>Videos einbinden</li>
           </ul>
           <a class="btn hell voll" href="#kontakt">Anfrage senden</a>
         </div>
