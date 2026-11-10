@@ -130,23 +130,12 @@
   .leistung .text { display: flex; flex-direction: column; gap: 14px; flex: 1; }
   .leistung .text p { color: var(--grau); }
   .leistung .preis-zeile { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--linie); font-size: .95rem; font-weight: 600; color: var(--tinte); }
-  .stichworte { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-  .stichworte li { font-size: .9rem; padding: 6px 12px; border: 1px solid var(--linie); border-radius: 999px; background: var(--papier); }
 
-  /* Das Hauptangebot steht auf dunklem Grund und ist größer */
-  .leistung.haupt { grid-column: 1 / -1; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 16px 32px; background: var(--tinte); color: #fff; border: 0; border-radius: 28px; padding: clamp(28px, 5vw, 64px) clamp(20px, 4vw, 56px); margin-bottom: clamp(8px, 1.5vw, 24px); }
-  .leistung.haupt .funke { width: 30px; height: 30px; margin-top: .35em; }
-  .leistung.haupt .text { display: grid; }
-  .leistung.haupt h3 { font-size: clamp(2.4rem, 6vw, 5rem); }
-  .leistung.haupt .marke-zeile { color: var(--glut); font-weight: 600; font-size: .95rem; margin-bottom: 10px; }
-  .leistung.haupt .text { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px 48px; margin-top: 8px; }
-  .leistung.haupt .text p { color: #c8d4ce; font-size: 1.1rem; }
-  .leistung.haupt .stichworte li { background: transparent; border-color: rgba(255,255,255,.22); color: #fff; }
-  .leistung.haupt .btn { background: #fff; color: var(--tinte); border-color: #fff; justify-self: start; }
-  .leistung.haupt .btn:hover { background: var(--glut); border-color: var(--glut); color: var(--tinte); }
-  .chat-punkte { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-  .chat-punkte li { position: relative; padding-left: 26px; color: #e9efeb; }
-  .chat-punkte li::before { content: ""; position: absolute; left: 0; top: .55em; width: 12px; height: 12px; border-radius: 50%; background: var(--glut); box-shadow: 0 0 0 4px rgba(255, 90, 31, .22); }
+  /* Zusatzleistungen: kleine Karten; auf weißem Abschnitt mit hellgrauem Grund */
+  .getoent .leistung { background: var(--grund); }
+  .leistung h3 { font-size: clamp(1.35rem, 1.8vw, 1.6rem); }
+  /* Pakete auf hellgrauem Abschnitt bekommen weißen Grund */
+  section:not(.getoent) .plan:not(.empfohlen) { background: var(--papier); }
 
   /* Signatur: Funken zünden beim Scrollen (nur wo der Browser es kann, sonst brennen sie einfach) */
   @supports (animation-timeline: view()) {
@@ -272,9 +261,21 @@
   /* Tablet */
   @media (max-width: 1023px) {
     .hero-unten, .kopf, .faq, .kontakt { grid-template-columns: minmax(0, 1fr); }
-    .leistung.haupt .text { grid-template-columns: minmax(0, 1fr); }
     .plaene { grid-template-columns: minmax(0, 1fr); max-width: 560px; }
     .beispiel { max-width: 520px; }
+  }
+
+  /* Bis 1099px passt die Navigation nicht in eine Zeile: Menü-Knopf statt Linkleiste */
+  @media (max-width: 1099px) {
+    .menue-knopf { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 2px solid var(--tinte); border-radius: 999px; background: transparent; color: var(--tinte); font-weight: 600; font-size: 16px; line-height: 1; cursor: pointer; }
+    .menue-knopf svg { width: 18px; height: 18px; }
+    .menue-knopf .zu { display: none; }
+    .menue-knopf[aria-expanded="true"] .auf { display: none; }
+    .menue-knopf[aria-expanded="true"] .zu { display: block; }
+    .nav ul { display: none; position: absolute; left: 0; right: 0; top: 68px; flex-direction: column; gap: 0; padding: 8px var(--rand) 20px; background: var(--grund); border-bottom: 1px solid var(--linie); box-shadow: 0 20px 30px -20px rgba(19,33,28,.35); }
+    .nav ul.offen { display: flex; }
+    .nav ul a { display: block; padding: 14px 0; font-size: 1.2rem; border-bottom: 1px solid var(--linie); }
+    .nav ul a::after { display: none; }
   }
 
   /* Handy: eigenes Layout, nicht nur verkleinert */
@@ -282,23 +283,13 @@
     .nav { height: 60px; gap: 12px; }
     html { scroll-padding-top: 68px; }
     .nav .btn { display: none; }
-    .menue-knopf { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 2px solid var(--tinte); border-radius: 999px; background: transparent; color: var(--tinte); font-weight: 600; font-size: 16px; line-height: 1; cursor: pointer; }
-    .menue-knopf svg { width: 18px; height: 18px; }
-    .menue-knopf .zu { display: none; }
-    .menue-knopf[aria-expanded="true"] .auf { display: none; }
-    .menue-knopf[aria-expanded="true"] .zu { display: block; }
-    .nav ul { display: none; position: absolute; left: 0; right: 0; top: 60px; flex-direction: column; gap: 0; padding: 8px var(--rand) 20px; background: var(--grund); border-bottom: 1px solid var(--linie); box-shadow: 0 20px 30px -20px rgba(19,33,28,.35); }
-    .nav ul.offen { display: flex; }
-    .nav ul a { display: block; padding: 14px 0; font-size: 1.2rem; border-bottom: 1px solid var(--linie); }
-    .nav ul a::after { display: none; }
+    .nav ul { top: 60px; }
     .hero { padding-top: 28px; padding-bottom: 72px; }
     .hero h1 { font-size: clamp(2.5rem, 12.5vw, 3.6rem); }
     .knoepfe { grid-template-columns: minmax(0, 1fr); max-width: none; }
     .beispiel { margin-top: 24px; }
     .leistungen { grid-template-columns: minmax(0, 1fr); }
     .leistung { padding: 24px 20px; }
-    .leistung.haupt { grid-template-columns: minmax(0, 1fr); border-radius: 20px; }
-    .leistung.haupt .funke { display: none; }
     .chat-start { right: 12px; bottom: 4px; }
     .chat-hinweis .lang { display: none; }
     .chat-hinweis .kurz { display: inline; }
@@ -332,8 +323,9 @@
       <span translate="no">KI-Funke.de</span>
     </a>
     <ul id="hauptmenue">
+      <li><a href="#webseiten">Webseiten</a></li>
+      <li><a href="#chat-assistent">Chat-Assistent</a></li>
       <li><a href="#leistungen">Leistungen</a></li>
-      <li><a href="#preise">Preise</a></li>
       <li><a href="#ablauf">Ablauf</a></li>
       <li><a href="#faq">Fragen</a></li>
       <li><a href="#kontakt">Kontakt</a></li>
@@ -356,7 +348,7 @@
         <p class="lead">Ich baue Webseiten für Handwerker, Restaurants, Friseure und andere kleine Betriebe, auf Wunsch mit KI-Chat-Assistent, der nachts Kundenfragen beantwortet. Logo, Grafik und Bilder gibt's aus derselben Hand.</p>
         <div class="knoepfe">
           <a class="btn" href="#kontakt">Unverbindlich anfragen <span class="pfeil" aria-hidden="true">→</span></a>
-          <a class="btn hell" href="#preise">Preise ansehen</a>
+          <a class="btn hell" href="#webseiten">Pakete ansehen</a>
           <!-- CHAT AUSGEBLENDET -->
           <button class="btn hell" type="button" id="demo-ausprobieren" hidden>Chat-Demo testen</button>
         </div>
@@ -373,69 +365,10 @@
     </div>
   </div>
 
-  <section id="leistungen" aria-labelledby="leistungen-titel">
-    <div class="wrap">
-      <div class="kopf">
-        <h2 id="leistungen-titel">Vier Leistungen. Ein Ansprechpartner.</h2>
-        <p>Alles, was ein kleiner Betrieb für einen guten Auftritt braucht.</p>
-      </div>
-      <ul class="leistungen">
-        <li class="leistung haupt">
-          <svg class="funke" aria-hidden="true"><use href="#funke"/></svg>
-          <div>
-            <p class="marke-zeile">Hauptangebot</p>
-            <h3>Webseiten</h3>
-            <div class="text">
-              <div style="display:grid;gap:20px;align-content:start">
-                <p>Modern, schnell und fürs Handy gebaut. Ihre Kunden finden in Sekunden, was sie suchen: Leistungen, Preise, Öffnungszeiten, Anfahrt.</p>
-                <ul class="stichworte">
-                  <li>Für Handy und Computer</li>
-                  <li>Schnell geladen</li>
-                  <li>Kontaktformular</li>
-                </ul>
-              </div>
-              <div style="display:grid;gap:20px;align-content:start">
-                <p>Auf Wunsch mit eingebautem KI-Chat-Assistenten:</p>
-                <ul class="chat-punkte">
-                  <li>beantwortet Kundenfragen rund um die Uhr</li>
-                  <li>kennt nur Ihre Angaben und erfindet nichts dazu</li>
-                  <li>leitet Anfragen sofort an Sie weiter</li>
-                </ul>
-                <a class="btn" href="#preise">Pakete für den Chat-Assistenten <span class="pfeil" aria-hidden="true">→</span></a>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="leistung">
-          <svg class="funke" aria-hidden="true"><use href="#funke"/></svg>
-          <h3>Logo &amp; Grafik</h3>
-          <div class="text">
-            <p>Logo, Farben, Visitenkarten und Flyer. Ein Auftritt, an dem Ihre Kunden Sie sofort wiedererkennen.</p>
-            <p class="preis-zeile">Preis auf Anfrage</p>
-          </div>
-        </li>
-        <li class="leistung">
-          <svg class="funke" aria-hidden="true"><use href="#funke"/></svg>
-          <h3>KI-Bilder</h3>
-          <div class="text">
-            <p>Ich werte Ihre Produktfotos auf und erstelle Bilder für Website und Social Media, passend zu Ihrem Betrieb.</p>            <p class="preis-zeile">Preis auf Anfrage</p>
-          </div>
-        </li>
-        <li class="leistung">
-          <svg class="funke" aria-hidden="true"><use href="#funke"/></svg>
-          <h3>Präsentationen</h3>
-          <div class="text">
-            <p>Firmenpräsentationen und Angebotsvorlagen in Ihrem Design. Klar aufgebaut, damit Ihr Angebot überzeugt.</p>            <p class="preis-zeile">Preis auf Anfrage</p>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="getoent" id="preise" aria-labelledby="preise-titel">
+  <section class="getoent" id="webseiten" aria-labelledby="webseiten-titel">
     <div class="wrap">
       <div class="upgrade-kopf erster">
-        <h2 id="preise-titel" class="upgrade-titel">Ihre neue Webseite: klare Pakete</h2>
+        <h2 id="webseiten-titel" class="upgrade-titel">Ihre neue Webseite: klare Pakete</h2>
         <p class="upgrade-text upgrade-satz">Einmaliger Festpreis. Sie sehen vorab, was Sie bekommen.</p>
       </div>
       <div class="plaene">
@@ -445,6 +378,7 @@
           <ul>
             <li>Übersichtliche Startseite mit Leistungen, Kontakt und Anfahrt</li>
             <li>Fürs Handy optimiert</li>
+            <li>Schnell geladen</li>
             <li>Kontaktformular</li>
             <li>Google-Maps-Karte</li>
             <li>Impressum und Datenschutz eingebunden</li>
@@ -477,8 +411,13 @@
         </div>
       </div>
       <p class="groesser"><strong>Größere Projekte:</strong> Preis nach Umfang.</p>
-      <div class="upgrade-kopf">
-        <h3 class="upgrade-titel">Chat-Assistent als Upgrade</h3>
+    </div>
+  </section>
+
+  <section id="chat-assistent" aria-labelledby="chat-titel">
+    <div class="wrap">
+      <div class="upgrade-kopf erster">
+        <h2 id="chat-titel" class="upgrade-titel">Chat-Assistent als Upgrade</h2>
         <p class="upgrade-text upgrade-satz">Kunden erwarten heute sofort eine Antwort. Ihr Chat-Assistent gibt sie, rund um die Uhr.</p>
         <p class="angebot-hinweis"><svg width="14" height="14" aria-hidden="true"><use href="#funke"/></svg> Einführungspreis für alle Aufträge bis 31.12.2026</p>
         <p class="upgrade-text">Einmalige Einrichtung plus monatliche Betreuung. Monatlich kündbar.</p>
@@ -532,6 +471,40 @@
         <p>Die Gesprächsmengen sind Richtwerte (faire Nutzung). Bei dauerhaft höherem Bedarf sprechen wir gemeinsam über ein größeres Paket.</p>
         <p>Alle Preise sind Endpreise. Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.</p>
       </div>
+    </div>
+  </section>
+
+  <section class="getoent" id="leistungen" aria-labelledby="leistungen-titel">
+    <div class="wrap">
+      <div class="upgrade-kopf erster">
+        <h2 id="leistungen-titel" class="upgrade-titel">Außerdem aus einer Hand</h2>
+      </div>
+      <ul class="leistungen">
+        <li class="leistung">
+          <svg class="funke" aria-hidden="true"><use href="#funke"/></svg>
+          <h3>Logo &amp; Grafik</h3>
+          <div class="text">
+            <p>Logo, Farben, Visitenkarten und Flyer, an denen Ihre Kunden Sie sofort wiedererkennen.</p>
+            <p class="preis-zeile">Preis auf Anfrage</p>
+          </div>
+        </li>
+        <li class="leistung">
+          <svg class="funke" aria-hidden="true"><use href="#funke"/></svg>
+          <h3>KI-Bilder</h3>
+          <div class="text">
+            <p>Ich werte Ihre Produktfotos auf und erstelle Bilder für Website und Social Media, passend zu Ihrem Betrieb.</p>
+            <p class="preis-zeile">Preis auf Anfrage</p>
+          </div>
+        </li>
+        <li class="leistung">
+          <svg class="funke" aria-hidden="true"><use href="#funke"/></svg>
+          <h3>Präsentationen</h3>
+          <div class="text">
+            <p>Firmenpräsentationen und Angebotsvorlagen in Ihrem Design, klar aufgebaut und überzeugend.</p>
+            <p class="preis-zeile">Preis auf Anfrage</p>
+          </div>
+        </li>
+      </ul>
     </div>
   </section>
 
