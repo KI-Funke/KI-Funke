@@ -158,11 +158,8 @@
 
   /* Preise */
   .getoent { background: var(--papier); border-top: 1px solid var(--linie); border-bottom: 1px solid var(--linie); }
-  .web-preise { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-  .web-preis { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; padding: clamp(24px, 3vw, 36px) clamp(20px, 3vw, 32px); border-radius: 22px; background: var(--tinte); color: #fff; }
-  .web-preis h3 { font-size: clamp(1.3rem, 2vw, 1.6rem); letter-spacing: -.02em; }
-  .web-preis .betrag { font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 700; letter-spacing: -.04em; line-height: 1; color: var(--glut); white-space: nowrap; }
-  .web-preis .betrag.klein { font-size: clamp(1.3rem, 2vw, 1.6rem); letter-spacing: -.01em; color: #c8d4ce; }
+  .groesser { margin-top: 20px; font-size: 1.05rem; }
+  .upgrade-satz { font-size: 1.2rem; color: var(--tinte); font-weight: 500; margin-top: -4px; }
   .upgrade-kopf { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin: clamp(56px, 7vw, 96px) 0 clamp(24px, 3vw, 36px); }
   .upgrade-titel { font-size: clamp(1.8rem, 3.6vw, 3rem); letter-spacing: -.035em; }
   .upgrade-text { flex-basis: 100%; color: var(--grau); font-size: 1.05rem; }
@@ -243,6 +240,33 @@
   footer a { color: #fff; }
   footer a:hover { color: var(--glut); }
 
+  /* Ausgeblendete Teile bleiben verborgen, auch wenn eine Regel sie sonst anzeigen würde */
+  [hidden] { display: none !important; }
+
+  /* CHAT AUSGEBLENDET: Chat-Knopf und Chatbase sind im HTML mit "hidden" versteckt.
+     Zum Einschalten: an allen Stellen mit dem Vermerk CHAT AUSGEBLENDET (hier und in danke.html)
+     "hidden" entfernen und beim footer unten wieder 104px Platz lassen (padding: 64px 0 104px). */
+  .chat-start { position: fixed; right: 16px; bottom: 6px; z-index: 2147483000; display: flex; flex-direction: column; align-items: flex-end; gap: 3px; pointer-events: none; }
+  .chat-start > * { pointer-events: auto; }
+  .chat-hinweis { margin: 0; padding: 1px 6px; border-radius: 6px; background: rgba(255, 255, 255, .92); color: #3a4440; font-size: 12px; line-height: 1.35; white-space: nowrap; text-align: right; }
+  .chat-hinweis a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+  .chat-hinweis .kurz { display: none; }
+  .chat-knopf { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 188px; height: 42px; padding: 0 16px; border: 0; border-radius: 9999px; background: #111111; color: #fff; font-weight: 600; font-size: 16px; line-height: 1; cursor: pointer; box-shadow: 0 6px 18px -6px rgba(0,0,0,.5); touch-action: manipulation; transition: background-color .15s, color .15s; }
+  .chat-knopf:hover { background: var(--glut); color: #111111; }
+  .chat-knopf:active { scale: .97; }
+  .chat-knopf:focus-visible { outline: 3px solid var(--glut); outline-offset: 3px; }
+  .chat-knopf svg { width: 18px; height: 18px; flex: none; }
+  .chat-knopf .zu { display: none; }
+  .chat-knopf[aria-expanded="true"] .auf, .chat-knopf[aria-expanded="true"] .chat-text { display: none; }
+  .chat-knopf[aria-expanded="true"] .zu { display: block; }
+  .chat-knopf[aria-busy="true"] { cursor: progress; opacity: .85; }
+  body.chat-offen .chat-hinweis { display: none; }
+  #chatbase-bubble-button { display: none !important; }
+  #chatbase-message-bubbles { right: 16px !important; left: auto !important; bottom: 70px !important; }
+  @media (min-width: 768px) {
+    #chatbase-bubble-window { right: 16px !important; left: auto !important; bottom: 70px !important; height: min(85dvh, 100dvh - 86px) !important; }
+  }
+
 
   /* Tablet */
   @media (max-width: 1023px) {
@@ -270,10 +294,17 @@
     .hero h1 { font-size: clamp(2.5rem, 12.5vw, 3.6rem); }
     .knoepfe { grid-template-columns: minmax(0, 1fr); max-width: none; }
     .beispiel { margin-top: 24px; }
-    .leistungen, .web-preise { grid-template-columns: minmax(0, 1fr); }
+    .leistungen { grid-template-columns: minmax(0, 1fr); }
     .leistung { padding: 24px 20px; }
     .leistung.haupt { grid-template-columns: minmax(0, 1fr); border-radius: 20px; }
     .leistung.haupt .funke { display: none; }
+    .chat-start { right: 12px; bottom: 4px; }
+    .chat-hinweis .lang { display: none; }
+    .chat-hinweis .kurz { display: inline; }
+    .chat-knopf { width: 52px; height: 52px; padding: 0; border-radius: 50%; }
+    .chat-knopf svg { width: 24px; height: 24px; }
+    .chat-knopf .chat-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    body.chat-offen .chat-start { z-index: 1; visibility: hidden; }
     .schritte { grid-template-columns: minmax(0, 1fr); gap: 32px; }
     .schritt, .schritt + .schritt { padding: 0; border: 0; }
     .schritt + .schritt { padding-top: 28px; border-top: 1px solid var(--linie); }
@@ -325,6 +356,8 @@
         <div class="knoepfe">
           <a class="btn" href="#kontakt">Unverbindlich anfragen <span class="pfeil" aria-hidden="true">→</span></a>
           <a class="btn hell" href="#preise">Preise ansehen</a>
+          <!-- CHAT AUSGEBLENDET -->
+          <button class="btn hell" type="button" id="demo-ausprobieren" hidden>Chat-Demo testen</button>
         </div>
       </div>
       <figure class="beispiel" aria-label="Beispiel mit frei erfundenem Betrieb: Ein KI-Assistent beantwortet nachts eine Kundenfrage.">
@@ -404,18 +437,40 @@
         <h2 id="preise-titel">Preise</h2>
         <p>Erst die Webseite, auf Wunsch der Chat-Assistent dazu.</p>
       </div>
-      <div class="web-preise">
-        <div class="web-preis">
-          <h3>Standard-Homepage</h3>
-          <p class="betrag">ab 399 €</p>
+      <div class="plaene">
+        <div class="plan">
+          <h3>Basis</h3>
+          <p class="preis"><small>ab</small> 399 €</p>
+          <ul>
+            <li>Eine übersichtliche Startseite mit Leistungen, Kontakt und Anfahrt</li>
+            <li>Fürs Handy optimiert</li>
+          </ul>
+          <a class="btn hell voll" href="#kontakt">Anfrage senden</a>
         </div>
-        <div class="web-preis">
-          <h3>Größere Projekte</h3>
-          <p class="betrag klein">Preis nach Umfang</p>
+        <div class="plan empfohlen">
+          <h3>Standard</h3>
+          <p class="empfehlung">Meine Empfehlung</p>
+          <p class="preis"><small>ab</small> 799 €</p>
+          <ul>
+            <li>Mehrere Unterseiten, z. B. Leistungen, Galerie, Öffnungszeiten</li>
+            <li>Kontaktformular</li>
+          </ul>
+          <a class="btn voll" href="#kontakt">Anfrage senden</a>
+        </div>
+        <div class="plan">
+          <h3>Pro</h3>
+          <p class="preis"><small>ab</small> 1.299 €</p>
+          <ul>
+            <li>Größerer Umfang</li>
+            <li>Texte und Bilder inklusive</li>
+          </ul>
+          <a class="btn hell voll" href="#kontakt">Anfrage senden</a>
         </div>
       </div>
+      <p class="groesser"><strong>Größere Projekte:</strong> Preis nach Umfang.</p>
       <div class="upgrade-kopf">
         <h3 class="upgrade-titel">Chat-Assistent als Upgrade</h3>
+        <p class="upgrade-text upgrade-satz">Kunden erwarten heute sofort eine Antwort. Ihr Chat-Assistent gibt sie, rund um die Uhr.</p>
         <p class="angebot-hinweis"><svg width="14" height="14" aria-hidden="true"><use href="#funke"/></svg> Einführungspreis für alle Aufträge bis 31.12.2026</p>
         <p class="upgrade-text">Einmalige Einrichtung plus monatliche Betreuung. Monatlich kündbar.</p>
       </div>
@@ -512,6 +567,8 @@
       <div>
         <h2 id="faq-titel">Häufige Fragen</h2>
         <p class="kopf-text">Ihre Frage ist nicht dabei? Schreiben Sie mir einfach.</p>
+        <!-- CHAT AUSGEBLENDET: beim Einschalten diese Zeile zeigen und die Zeile darüber entfernen -->
+        <p class="kopf-text" hidden>Ihre Frage ist nicht dabei? Stellen Sie sie dem Chat unten rechts oder schreiben Sie mir.</p>
       </div>
       <div>
         <details>
@@ -630,7 +687,119 @@
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     links.forEach(function (a) { const ziel = document.querySelector(a.getAttribute('href')); if (ziel) beobachter.observe(ziel); });
+
+    // "Chat-Demo testen" öffnet den echten Chat (lädt Chatbase erst jetzt)
+    document.getElementById('demo-ausprobieren').addEventListener('click', function () { window.fdkbChatOeffnen(); });
   })();
+</script>
+
+<!-- CHAT AUSGEBLENDET: Eigener Chat-Knopf, Chatbase wird erst nach dem Klick geladen.
+     Solange "hidden" gesetzt ist, sieht niemand den Knopf und es wird nichts von Chatbase geladen. -->
+<div class="chat-start" id="chat-start" hidden>
+  <button class="chat-knopf" id="chat-knopf" type="button" aria-expanded="false" aria-describedby="chat-hinweis">
+    <svg class="auf" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h14a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-7l-5 4v-4H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3z"/><circle cx="8" cy="10.5" r="1.4" fill="#ff5a1f"/><circle cx="12" cy="10.5" r="1.4" fill="#ff5a1f"/><circle cx="16" cy="10.5" r="1.4" fill="#ff5a1f"/></svg>
+    <svg class="zu" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    <span class="chat-text">Chat</span>
+  </button>
+  <p class="chat-hinweis" id="chat-hinweis"><span class="lang">Beim Öffnen Datenübertragung an</span><span class="kurz">Daten an</span> Chatbase · <a href="datenschutz.html#chatbase">Datenschutz</a></p>
+</div>
+<!-- Chatbase-Chatbot: wird erst geladen, wenn jemand den Chat-Knopf (oder "Chat-Demo testen") anklickt.
+     Vorher geht keine Anfrage an chatbase.co und es wird kein Cookie gesetzt. -->
+<script>
+(function () {
+  const knopf = document.getElementById('chat-knopf');
+  let geladen = false;
+
+  function chatbaseLaden() {
+    if (geladen) return;
+    geladen = true;
+    knopf.setAttribute('aria-busy', 'true');
+    // Offizieller Chatbase-Einbettungscode, nur eben erst nach dem Klick ausgeführt
+    if (!window.chatbase || window.chatbase('getState') !== 'initialized') {
+      window.chatbase = (...arguments) => { if (!window.chatbase.q) { window.chatbase.q = []; } window.chatbase.q.push(arguments); };
+      window.chatbase = new Proxy(window.chatbase, { get(target, prop) { if (prop === 'q') { return target.q; } return (...args) => target(prop, ...args); } });
+    }
+    const script = document.createElement('script');
+    script.src = 'https://www.chatbase.co/embed.min.js';
+    script.id = 'ybUJicns4thyEVb9f0X7W';
+    script.domain = 'www.chatbase.co';
+    // Blockiert (z. B. Werbeblocker oder offline): zurück auf Anfang und zum Kontaktformular
+    script.onerror = function () {
+      geladen = false;
+      script.remove();
+      knopf.removeAttribute('aria-busy');
+      location.hash = '#kontakt';
+    };
+    document.body.appendChild(script);
+    verlaufPruefen();
+  }
+
+  // Öffnet den Chat (lädt ihn beim ersten Mal); auch für den Knopf "Chat-Demo testen"
+  window.fdkbChatOeffnen = function () {
+    chatbaseLaden();
+    window.chatbase('open');
+  };
+
+  knopf.addEventListener('click', function () {
+    if (knopf.getAttribute('aria-expanded') === 'true') window.chatbase('close');
+    else window.fdkbChatOeffnen();
+  });
+
+  // Unser Knopf zeigt an, ob das Chatbase-Fenster offen ist
+  function zustandAnzeigen(fenster) {
+    const offen = fenster.style.display !== 'none';
+    knopf.setAttribute('aria-expanded', offen);
+    knopf.setAttribute('aria-label', offen ? 'Chat schließen' : 'Chat öffnen');
+    document.body.classList.toggle('chat-offen', offen);
+    knopf.removeAttribute('aria-busy');
+  }
+  const fensterSucher = new MutationObserver(function () {
+    const fenster = document.getElementById('chatbase-bubble-window');
+    if (!fenster) return;
+    fensterSucher.disconnect();
+    zustandAnzeigen(fenster);
+    new MutationObserver(function () { zustandAnzeigen(fenster); }).observe(fenster, { attributes: true, attributeFilter: ['style'] });
+  });
+  fensterSucher.observe(document.body, { childList: true });
+  knopf.setAttribute('aria-label', 'Chat öffnen');
+})();
+
+// Chat-Verlauf zurücksetzen, wenn die letzte Nachricht mehr als 4 Stunden her ist.
+// Läuft erst, wenn Chatbase nach dem Klick geladen wird.
+function verlaufPruefen() {
+  const SCHLUESSEL = 'fdkb-letzte-chat-nachricht';
+  const VIER_STUNDEN = 4 * 60 * 60 * 1000;
+
+  function zeitpunktMerken() {
+    try { localStorage.setItem(SCHLUESSEL, String(Date.now())); } catch (e) {}
+  }
+
+  function zuAlt() {
+    let letzte = null;
+    try { letzte = Number(localStorage.getItem(SCHLUESSEL)); } catch (e) {}
+    return !!letzte && Date.now() - letzte > VIER_STUNDEN;
+  }
+
+  const zuruecksetzen = zuAlt();
+
+  const listenerWarten = setInterval(function () {
+    if (!document.getElementById('chatbase-bubble-button')) return;
+    clearInterval(listenerWarten);
+    window.chatbase.addEventListener('user-message', zeitpunktMerken);
+    window.chatbase.addEventListener('assistant-message', zeitpunktMerken);
+  }, 500);
+
+  if (zuruecksetzen) {
+    const resetWarten = setInterval(function () {
+      let zustand;
+      try { zustand = window.chatbase && window.chatbase('getState'); } catch (e) {}
+      if (zustand !== 'initialized') return;
+      clearInterval(resetWarten);
+      window.chatbase.resetChat();
+      try { localStorage.removeItem(SCHLUESSEL); } catch (e) {}
+    }, 300);
+  }
+}
 </script>
 
 </body>
