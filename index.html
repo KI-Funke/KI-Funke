@@ -4,14 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KI-Funke.de · Webseiten, Grafik und KI-Bilder aus Vaterstetten</title>
-<meta name="description" content="KI-Funke.de ist ein kleines KI-Kreativstudio aus Vaterstetten bei München: Webseiten mit KI-Chat-Assistent, Logo und Grafik, KI-Bilder und Präsentationen für lokale Betriebe.">
-<meta name="theme-color" content="#13211c">
+<meta name="description" content="Webseiten für Handwerker, Restaurants und Friseure aus Vaterstetten bei München. Auf Wunsch mit KI-Chat-Assistent. Dazu Logo, Grafik und KI-Bilder.">
+<meta name="theme-color" content="#111111">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="canonical" href="https://ki-funke.de/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ki-funke.de/">
-<meta property="og:title" content="KI-Funke.de · Webseiten, die auch nachts Fragen beantworten">
-<meta property="og:description" content="Webseiten mit KI-Chat-Assistent, Logo und Grafik, KI-Bilder und Präsentationen für Handwerker, Hotels, Restaurants, Friseure und Praxen.">
+<meta property="og:title" content="KI-Funke.de – Webseiten für kleine Betriebe">
+<meta property="og:description" content="Webseiten für Handwerker, Restaurants, Friseure und andere kleine Betriebe. Auf Wunsch mit KI-Chat-Assistent. Dazu Logo, Grafik und KI-Bilder.">
 <meta property="og:locale" content="de_DE">
 <meta property="og:image" content="https://ki-funke.de/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -46,7 +48,7 @@
   }
   *, *::before, *::after { box-sizing: border-box; }
   html { scroll-behavior: smooth; scroll-padding-top: 76px; -webkit-text-size-adjust: 100%; }
-  body { margin: 0; background: var(--grund); color: var(--tinte); font: 400 1.0625rem/1.55 "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; overflow-x: hidden; }
+  body { margin: 0; background: var(--grund); color: var(--tinte); font: 400 17px/1.55 "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; overflow-x: hidden; }
   img { max-width: 100%; height: auto; display: block; }
   a { color: inherit; text-underline-offset: 3px; }
   h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.05; text-wrap: balance; }
@@ -56,9 +58,11 @@
   .springen:focus { top: 12px; }
   :focus-visible { outline: 3px solid var(--glut); outline-offset: 3px; border-radius: 4px; }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  /* Formularelemente erben die Seitenschrift; 16px verhindert das Hineinzoomen auf dem iPhone */
+  input, textarea, select, button { font: inherit; font-size: 16px; }
 
   /* Knöpfe: der Pfeil "zündet" nach rechts */
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 0 22px; border: 2px solid var(--tinte); border-radius: 999px; background: var(--tinte); color: #fff; font: 600 1rem/1 inherit; font-family: inherit; text-decoration: none; cursor: pointer; touch-action: manipulation; transition: background-color .2s, border-color .2s, color .2s; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 0 22px; border: 2px solid var(--tinte); border-radius: 999px; background: var(--tinte); color: #fff; font-weight: 600; font-size: 16px; line-height: 1; text-decoration: none; cursor: pointer; touch-action: manipulation; transition: background-color .2s, border-color .2s, color .2s; }
   .btn .pfeil { display: inline-block; transition: translate .35s var(--ease); }
   .btn:hover { background: var(--gruen); border-color: var(--gruen); }
   .btn:hover .pfeil { translate: 5px 0; }
@@ -89,8 +93,8 @@
   .hero h1 em::after { content: ""; position: absolute; left: .02em; right: .02em; bottom: .06em; height: .09em; background: var(--glut); border-radius: 99px; z-index: -1; }
   .hero-unten { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(32px, 6vw, 96px); align-items: end; margin-top: clamp(32px, 5vw, 64px); }
   .lead { font-size: clamp(1.1rem, 1.5vw, 1.3rem); line-height: 1.5; max-width: 34em; }
-  .knoepfe { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-  .demo-hinweis { margin-top: 12px; font-size: .85rem; color: var(--grau); }
+  /* beide Knöpfe gleich groß */
+  .knoepfe { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 540px; margin-top: 28px; }
 
   /* Beispiel-Chat im Hero: zeigt das Prinzip, klar als erfunden markiert */
   .beispiel { position: relative; background: var(--tinte); color: #e9efeb; border-radius: 22px; padding: 22px 22px 18px; box-shadow: 0 30px 60px -30px rgba(19, 33, 28, .55); }
@@ -118,21 +122,21 @@
   .kopf p { color: var(--grau); font-size: 1.1rem; max-width: 30em; }
 
   /* Leistungen: eine Zündschnur, an der vier Funken sitzen */
-  .leistungen { list-style: none; margin: 0; padding: 0; position: relative; }
-  .leistung { position: relative; display: grid; grid-template-columns: 56px minmax(0, 1.1fr) minmax(0, 1fr); gap: 16px 32px; padding: clamp(28px, 4vw, 44px) 0; border-top: 1px solid var(--linie); }
-  .leistung:last-child { border-bottom: 1px solid var(--linie); }
-  .leistung .funke { width: 30px; height: 30px; margin-top: .35em; color: var(--glut); }
-  .leistung h3 { font-size: clamp(1.8rem, 3.6vw, 3rem); letter-spacing: -.035em; }
-  .leistung .text { display: grid; gap: 16px; align-content: start; }
+  /* Hauptangebot über die volle Breite, darunter drei kompakte Karten */
+  .leistungen { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .leistung { display: flex; flex-direction: column; gap: 14px; padding: 28px 24px; border: 1px solid var(--linie); border-radius: 22px; background: var(--papier); }
+  .leistung .funke { width: 28px; height: 28px; flex: none; color: var(--glut); }
+  .leistung h3 { font-size: clamp(1.5rem, 2.2vw, 1.9rem); letter-spacing: -.03em; }
+  .leistung .text { display: flex; flex-direction: column; gap: 14px; flex: 1; }
   .leistung .text p { color: var(--grau); }
+  .leistung .preis-zeile { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--linie); font-size: .95rem; font-weight: 600; color: var(--tinte); }
   .stichworte { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
   .stichworte li { font-size: .9rem; padding: 6px 12px; border: 1px solid var(--linie); border-radius: 999px; background: var(--papier); }
-  .platzhalter { display: grid; place-items: center; aspect-ratio: 16 / 7; border: 2px dashed #9aa8a0; border-radius: 14px; background: repeating-linear-gradient(-45deg, transparent 0 12px, rgba(19,33,28,.035) 12px 24px); color: var(--grau); font-size: .88rem; text-align: center; padding: 12px; }
-  .platzhalter strong { display: block; color: var(--tinte); }
-  .preis-zeile { font-size: .95rem; color: var(--grau); }
 
   /* Das Hauptangebot steht auf dunklem Grund und ist größer */
-  .leistung.haupt { grid-template-columns: 56px minmax(0, 1fr); background: var(--tinte); color: #fff; border: 0; border-radius: 28px; padding: clamp(28px, 5vw, 64px) clamp(20px, 4vw, 56px); margin-bottom: clamp(24px, 3vw, 40px); }
+  .leistung.haupt { grid-column: 1 / -1; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 16px 32px; background: var(--tinte); color: #fff; border: 0; border-radius: 28px; padding: clamp(28px, 5vw, 64px) clamp(20px, 4vw, 56px); margin-bottom: clamp(8px, 1.5vw, 24px); }
+  .leistung.haupt .funke { width: 30px; height: 30px; margin-top: .35em; }
+  .leistung.haupt .text { display: grid; }
   .leistung.haupt h3 { font-size: clamp(2.4rem, 6vw, 5rem); }
   .leistung.haupt .marke-zeile { color: var(--glut); font-weight: 600; font-size: .95rem; margin-bottom: 10px; }
   .leistung.haupt .text { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px 48px; margin-top: 8px; }
@@ -154,6 +158,14 @@
 
   /* Preise */
   .getoent { background: var(--papier); border-top: 1px solid var(--linie); border-bottom: 1px solid var(--linie); }
+  .web-preise { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .web-preis { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; padding: clamp(24px, 3vw, 36px) clamp(20px, 3vw, 32px); border-radius: 22px; background: var(--tinte); color: #fff; }
+  .web-preis h3 { font-size: clamp(1.3rem, 2vw, 1.6rem); letter-spacing: -.02em; }
+  .web-preis .betrag { font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 700; letter-spacing: -.04em; line-height: 1; color: var(--glut); white-space: nowrap; }
+  .web-preis .betrag.klein { font-size: clamp(1.3rem, 2vw, 1.6rem); letter-spacing: -.01em; color: #c8d4ce; }
+  .upgrade-kopf { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin: clamp(56px, 7vw, 96px) 0 clamp(24px, 3vw, 36px); }
+  .upgrade-titel { font-size: clamp(1.8rem, 3.6vw, 3rem); letter-spacing: -.035em; }
+  .upgrade-text { flex-basis: 100%; color: var(--grau); font-size: 1.05rem; }
   .angebot-hinweis { display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; background: #fff1ea; color: var(--glut-text); font-weight: 600; font-size: .95rem; }
   .plaene { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
   .plan { display: flex; flex-direction: column; gap: 14px; padding: 28px 24px; border: 1px solid var(--linie); border-radius: 22px; background: var(--grund); }
@@ -173,7 +185,7 @@
   .plan.empfohlen li::before { background: var(--glut); }
   .plan.empfohlen .btn { background: #fff; color: var(--tinte); border-color: #fff; }
   .plan.empfohlen .btn:hover { background: var(--glut); border-color: var(--glut); }
-  .empfehlung { align-self: flex-start; font-size: .8rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--glut); color: var(--tinte); }
+  .empfehlung { align-self: flex-start; font-size: 14px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--glut); color: var(--tinte); }
   .auf-anfrage { font-size: .9rem; color: var(--grau); }
   .hinweise { display: grid; gap: 6px; margin-top: 24px; font-size: .92rem; color: var(--grau); }
 
@@ -212,7 +224,12 @@
   .formular { display: grid; gap: 16px; padding: clamp(20px, 3vw, 32px); border-radius: 22px; background: var(--papier); border: 1px solid var(--linie); }
   .formular label { display: grid; gap: 6px; font-weight: 600; font-size: .95rem; }
   .optional { font-weight: 400; color: var(--grau); }
-  .formular input, .formular textarea { width: 100%; min-height: 50px; padding: 12px 14px; border: 1.5px solid #b9c4bd; border-radius: 12px; background: #fff; color: var(--tinte); font: 400 1rem/1.4 inherit; font-family: inherit; }
+  .formular input, .formular textarea { width: 100%; min-height: 50px; padding: 12px 14px; border: 1.5px solid #b9c4bd; border-radius: 12px; background: #fff; color: var(--tinte); font-weight: 400; line-height: 1.4; }
+  .interesse { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; border: 0; min-width: 0; }
+  .interesse legend { padding: 0; margin-bottom: 8px; font-weight: 600; font-size: .95rem; }
+  .formular .haken { display: flex; align-items: center; gap: 10px; min-height: 50px; padding: 0 14px; border: 1.5px solid #b9c4bd; border-radius: 12px; background: #fff; font-weight: 500; font-size: 16px; cursor: pointer; }
+  .formular .haken input { flex: none; width: 20px; height: 20px; min-height: 0; margin: 0; padding: 0; accent-color: var(--glut); }
+  .formular .haken:has(input:checked) { border-color: var(--tinte); background: #fff1ea; }
   .formular textarea { resize: vertical; min-height: 120px; }
   .formular input:focus-visible, .formular textarea:focus-visible { outline: 3px solid var(--glut); outline-offset: 1px; border-color: var(--tinte); }
   .formular-hinweis { font-size: .88rem; color: var(--grau); }
@@ -220,7 +237,7 @@
   /* Fußzeile: unten Platz lassen, damit der Chat-Knopf keine Links verdeckt */
   footer { background: var(--tinte); color: #c8d4ce; padding: 64px 0 104px; }
   .fuss { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 28px; }
-  .fuss-marke { font-size: clamp(2.4rem, 8vw, 6rem); font-weight: 700; letter-spacing: -.05em; line-height: .9; color: #fff; }
+  .fuss-marke { font-size: 36px; font-weight: 700; letter-spacing: -.04em; line-height: 1; color: #fff; }
   .fuss-marke span { color: var(--glut); }
   .fuss-links { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: .95rem; }
   footer a { color: #fff; }
@@ -229,13 +246,13 @@
   /* Eigener Chat-Knopf: Chatbase wird erst nach einem Klick darauf geladen (vorher keine Verbindung, kein Cookie) */
   .chat-start { position: fixed; right: 16px; bottom: 6px; z-index: 2147483000; display: flex; flex-direction: column; align-items: flex-end; gap: 3px; pointer-events: none; }
   .chat-start > * { pointer-events: auto; }
-  .chat-hinweis { margin: 0; color: #808080; font-size: 10px; line-height: 1.3; white-space: nowrap; text-align: right; }
+  .chat-hinweis { margin: 0; padding: 1px 6px; border-radius: 6px; background: rgba(255, 255, 255, .92); color: #3a4440; font-size: 12px; line-height: 1.35; white-space: nowrap; text-align: right; }
   .chat-hinweis a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
   .chat-hinweis .kurz { display: none; }
-  .chat-knopf { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 188px; height: 42px; padding: 0 16px; border: 0; border-radius: 9999px; background: #2A792C; color: #fff; font: 600 15px/1 inherit; font-family: inherit; cursor: pointer; box-shadow: 0 6px 18px -6px rgba(19,33,28,.5); touch-action: manipulation; transition: background-color .15s; }
-  .chat-knopf:hover { background: #22631f; }
+  .chat-knopf { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 188px; height: 42px; padding: 0 16px; border: 0; border-radius: 9999px; background: #111111; color: #fff; font-weight: 600; font-size: 16px; line-height: 1; cursor: pointer; box-shadow: 0 6px 18px -6px rgba(0,0,0,.5); touch-action: manipulation; transition: background-color .15s, color .15s; }
+  .chat-knopf:hover { background: var(--glut); color: #111111; }
   .chat-knopf:active { scale: .97; }
-  .chat-knopf:focus-visible { outline: 3px solid var(--tinte); outline-offset: 3px; }
+  .chat-knopf:focus-visible { outline: 3px solid var(--glut); outline-offset: 3px; }
   .chat-knopf svg { width: 18px; height: 18px; flex: none; }
   .chat-knopf .zu { display: none; }
   .chat-knopf[aria-expanded="true"] .auf, .chat-knopf[aria-expanded="true"] .chat-text { display: none; }
@@ -258,11 +275,10 @@
 
   /* Handy: eigenes Layout, nicht nur verkleinert */
   @media (max-width: 767px) {
-    body { font-size: 1rem; }
     .nav { height: 60px; gap: 12px; }
     html { scroll-padding-top: 68px; }
     .nav .btn { display: none; }
-    .menue-knopf { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 2px solid var(--tinte); border-radius: 999px; background: transparent; color: var(--tinte); font: 600 .95rem/1 inherit; font-family: inherit; cursor: pointer; }
+    .menue-knopf { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 2px solid var(--tinte); border-radius: 999px; background: transparent; color: var(--tinte); font-weight: 600; font-size: 16px; line-height: 1; cursor: pointer; }
     .menue-knopf svg { width: 18px; height: 18px; }
     .menue-knopf .zu { display: none; }
     .menue-knopf[aria-expanded="true"] .auf { display: none; }
@@ -273,11 +289,10 @@
     .nav ul a::after { display: none; }
     .hero { padding-top: 28px; padding-bottom: 72px; }
     .hero h1 { font-size: clamp(2.5rem, 12.5vw, 3.6rem); }
-    .knoepfe .btn { flex: 1 1 100%; }
+    .knoepfe { grid-template-columns: minmax(0, 1fr); max-width: none; }
     .beispiel { margin-top: 24px; }
-    .leistung { grid-template-columns: 36px minmax(0, 1fr); gap: 14px 14px; }
-    .leistung .funke { width: 24px; height: 24px; margin-top: .15em; }
-    .leistung .text { grid-column: 1 / -1; }
+    .leistungen, .web-preise { grid-template-columns: minmax(0, 1fr); }
+    .leistung { padding: 24px 20px; }
     .leistung.haupt { grid-template-columns: minmax(0, 1fr); border-radius: 20px; }
     .leistung.haupt .funke { display: none; }
     .schritte { grid-template-columns: minmax(0, 1fr); gap: 32px; }
@@ -308,7 +323,7 @@
 
 <header id="kopfzeile">
   <nav class="wrap nav" aria-label="Hauptnavigation">
-    <a class="marke" href="#inhalt" aria-label="KI-Funke.de, zum Seitenanfang">
+    <a class="marke" href="/" aria-label="KI-Funke.de, zur Startseite">
       <svg aria-hidden="true" style="color:var(--glut)"><use href="#funke"/></svg>
       <span translate="no">KI-Funke.de</span>
     </a>
@@ -331,15 +346,14 @@
 <main id="inhalt">
   <div class="wrap hero">
     <p class="ort"><svg aria-hidden="true"><use href="#funke"/></svg> KI-Kreativstudio aus Vaterstetten bei München</p>
-    <h1>Webseiten, die auch <em>nachts</em> Fragen beantworten.</h1>
+    <h1>Ihre neue Webseite. Fertig in <em>zwei Wochen</em>.</h1>
     <div class="hero-unten">
       <div>
-        <p class="lead">Ich baue moderne, schnelle Webseiten für Handwerker, Hotels, Restaurants, Friseure und Praxen. Auf Wunsch mit einem KI-Chat-Assistenten, der Ihre Kunden rund um die Uhr berät. Dazu Logo, Grafik, KI-Bilder und Präsentationen aus einer Hand.</p>
+        <p class="lead">Ich baue Webseiten für Handwerker, Restaurants, Friseure und andere kleine Betriebe, auf Wunsch mit KI-Chat-Assistent, der nachts Kundenfragen beantwortet. Logo, Grafik und Bilder gibt's aus derselben Hand.</p>
         <div class="knoepfe">
           <a class="btn" href="#kontakt">Unverbindlich anfragen <span class="pfeil" aria-hidden="true">→</span></a>
           <button class="btn hell" type="button" id="demo-ausprobieren">Chat-Demo testen</button>
         </div>
-        <p class="demo-hinweis">Die Demo läuft über Chatbase (USA). Erst beim Öffnen werden Daten dorthin übertragen. <a href="datenschutz.html#chatbase">Datenschutz</a></p>
       </div>
       <figure class="beispiel" aria-label="Beispiel mit frei erfundenem Betrieb: Ein KI-Assistent beantwortet nachts eine Kundenfrage.">
         <svg class="funke-deko" aria-hidden="true"><use href="#funke"/></svg>
@@ -357,7 +371,7 @@
     <div class="wrap">
       <div class="kopf">
         <h2 id="leistungen-titel">Vier Leistungen. Ein Ansprechpartner.</h2>
-        <p>Alles, was ein kleiner Betrieb für einen guten Auftritt braucht. Sie sprechen immer direkt mit mir.</p>
+        <p>Alles, was ein kleiner Betrieb für einen guten Auftritt braucht.</p>
       </div>
       <ul class="leistungen">
         <li class="leistung haupt">
@@ -391,7 +405,6 @@
           <h3>Logo &amp; Grafik</h3>
           <div class="text">
             <p>Logo, Farben, Visitenkarten und Flyer. Ein Auftritt, an dem Ihre Kunden Sie sofort wiedererkennen.</p>
-            <div class="platzhalter"><span><strong>Platzhalter</strong>Arbeitsprobe Logo &amp; Grafik folgt</span></div>
             <p class="preis-zeile">Preis auf Anfrage</p>
           </div>
         </li>
@@ -399,18 +412,14 @@
           <svg class="funke" aria-hidden="true"><use href="#funke"/></svg>
           <h3>KI-Bilder</h3>
           <div class="text">
-            <p>Ich werte Ihre Produktfotos auf und erstelle Bilder für Website und Social Media, passend zu Ihrem Betrieb.</p>
-            <div class="platzhalter"><span><strong>Platzhalter</strong>Vorher-nachher-Beispiel folgt</span></div>
-            <p class="preis-zeile">Preis auf Anfrage</p>
+            <p>Ich werte Ihre Produktfotos auf und erstelle Bilder für Website und Social Media, passend zu Ihrem Betrieb.</p>            <p class="preis-zeile">Preis auf Anfrage</p>
           </div>
         </li>
         <li class="leistung">
           <svg class="funke" aria-hidden="true"><use href="#funke"/></svg>
           <h3>Präsentationen</h3>
           <div class="text">
-            <p>Firmenpräsentationen und Angebotsvorlagen in Ihrem Design. Klar aufgebaut, damit Ihr Angebot überzeugt.</p>
-            <div class="platzhalter"><span><strong>Platzhalter</strong>Beispielfolie folgt</span></div>
-            <p class="preis-zeile">Preis auf Anfrage</p>
+            <p>Firmenpräsentationen und Angebotsvorlagen in Ihrem Design. Klar aufgebaut, damit Ihr Angebot überzeugt.</p>            <p class="preis-zeile">Preis auf Anfrage</p>
           </div>
         </li>
       </ul>
@@ -420,11 +429,23 @@
   <section class="getoent" id="preise" aria-labelledby="preise-titel">
     <div class="wrap">
       <div class="kopf">
-        <div>
-          <p class="angebot-hinweis"><svg width="14" height="14" aria-hidden="true"><use href="#funke"/></svg> Einführungspreis für alle Aufträge bis 31.12.2026</p>
-          <h2 id="preise-titel" style="margin-top:20px">Chat-Assistent: klare Pakete</h2>
+        <h2 id="preise-titel">Preise</h2>
+        <p>Erst die Webseite, auf Wunsch der Chat-Assistent dazu.</p>
+      </div>
+      <div class="web-preise">
+        <div class="web-preis">
+          <h3>Standard-Homepage</h3>
+          <p class="betrag">ab 399 €</p>
         </div>
-        <p>Einmalige Einrichtung plus monatliche Betreuung. Monatlich kündbar.</p>
+        <div class="web-preis">
+          <h3>Größere Projekte</h3>
+          <p class="betrag klein">Preis nach Umfang</p>
+        </div>
+      </div>
+      <div class="upgrade-kopf">
+        <h3 class="upgrade-titel">Chat-Assistent als Upgrade</h3>
+        <p class="angebot-hinweis"><svg width="14" height="14" aria-hidden="true"><use href="#funke"/></svg> Einführungspreis für alle Aufträge bis 31.12.2026</p>
+        <p class="upgrade-text">Einmalige Einrichtung plus monatliche Betreuung. Monatlich kündbar.</p>
       </div>
       <div class="plaene">
         <div class="plan">
@@ -491,7 +512,7 @@
         </li>
         <li class="schritt">
           <h3>Sie bekommen ein Angebot</h3>
-          <p>Klar und vorab. Für den Chat-Assistenten baue ich Ihnen innerhalb von 24 Stunden kostenlos einen Probe-Assistenten mit Ihren echten Daten.</p>
+          <p>Festpreis, vorab. Für die Webseite zeige ich Ihnen nach wenigen Tagen einen ersten Entwurf; den Chat-Assistenten können Sie innerhalb von 24 Stunden kostenlos testen.</p>
         </li>
         <li class="schritt">
           <h3>Es geht los</h3>
@@ -526,6 +547,18 @@
           <p>Nein. Sie beantworten ein paar Fragen zu Ihrem Betrieb, den Rest erledige ich.</p>
         </details>
         <details>
+          <summary>Wie schnell ist sie online?</summary>
+          <p>In der Regel in zwei Wochen. Einen ersten Entwurf sehen Sie schon nach wenigen Tagen. Wie schnell es am Ende geht, hängt auch davon ab, wann Ihre Texte und Bilder da sind.</p>
+        </details>
+        <details>
+          <summary>Was kostet die Webseite laufend?</summary>
+          <p>Für Domain und Webhosting fallen laufende Kosten an. Die nenne ich Ihnen vorab im Angebot, damit Sie wissen, woran Sie sind. Der Chat-Assistent ist ein freiwilliges Upgrade ab 99 € im Monat.</p>
+        </details>
+        <details>
+          <summary>Gehört mir die Seite?</summary>
+          <p>Ja. Nach vollständiger Bezahlung gehört die Webseite Ihnen, mit allen Texten und Bildern, die ich für Sie erstellt habe.</p>
+        </details>
+        <details>
           <summary>Kann ich auch nur einen Chat-Assistenten für meine bestehende Website bekommen?</summary>
           <p>Ja. Der Assistent funktioniert mit praktisch jeder Website: WordPress, Jimdo, Wix, Squarespace oder selbst gebaut.</p>
         </details>
@@ -549,7 +582,7 @@
     <div class="wrap kontakt">
       <div class="kontakt-text">
         <h2 id="kontakt-titel">Erzählen Sie mir, was Sie brauchen.</h2>
-        <p class="lead">Ich melde mich persönlich bei Ihnen. Kostenlos und unverbindlich.</p>
+        <p class="lead">Ich melde mich bei Ihnen zurück. Kostenlos und unverbindlich.</p>
         <p>E-Mail: <a href="mailto:info@ki-funke.de">info@ki-funke.de</a></p>
       </div>
       <!-- Versand über Web3Forms (https://web3forms.com); nach dem Absenden geht es zur Danke-Seite -->
@@ -568,8 +601,13 @@
           <input name="email" id="kontakt-email" type="email" autocomplete="email" spellcheck="false" placeholder="name@ihr-betrieb.de" required></label>
         <label for="kontakt-telefon"><span>Telefonnummer für einen Rückruf <span class="optional">(optional)</span></span>
           <input name="telefon" id="kontakt-telefon" type="tel" inputmode="tel" autocomplete="tel" placeholder="z. B. 08106 123456"></label>
-        <label for="kontakt-nachricht"><span>Worum geht es? <span class="optional">(optional)</span></span>
-          <textarea name="nachricht" id="kontakt-nachricht" rows="4" placeholder="z. B. Neue Website mit Chat-Assistent für unser Restaurant"></textarea></label>
+        <fieldset class="interesse">
+          <legend>Wofür interessieren Sie sich? <span class="optional">(mehrere möglich)</span></legend>
+          <label class="haken"><input type="checkbox" name="interesse_webseite" value="Webseite"> Webseite</label>
+          <label class="haken"><input type="checkbox" name="interesse_chat" value="Chat-Assistent"> Chat-Assistent</label>
+          <label class="haken"><input type="checkbox" name="interesse_grafik" value="Logo &amp; Grafik"> Logo &amp; Grafik</label>
+          <label class="haken"><input type="checkbox" name="interesse_sonstiges" value="Sonstiges"> Sonstiges</label>
+        </fieldset>
         <p class="formular-hinweis">Ihre Angaben verwende ich nur, um Ihre Anfrage zu beantworten. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
         <button class="btn voll" type="submit">Anfrage senden <span class="pfeil" aria-hidden="true">→</span></button>
       </form>
@@ -629,7 +667,7 @@
 <!-- Eigener Chat-Knopf: Chatbase wird erst nach dem Klick geladen -->
 <div class="chat-start" id="chat-start">
   <button class="chat-knopf" id="chat-knopf" type="button" aria-expanded="false" aria-describedby="chat-hinweis">
-    <svg class="auf" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h14a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-7l-5 4v-4H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3z"/><circle cx="8" cy="10.5" r="1.4" fill="#2A792C"/><circle cx="12" cy="10.5" r="1.4" fill="#2A792C"/><circle cx="16" cy="10.5" r="1.4" fill="#2A792C"/></svg>
+    <svg class="auf" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h14a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-7l-5 4v-4H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3z"/><circle cx="8" cy="10.5" r="1.4" fill="#ff5a1f"/><circle cx="12" cy="10.5" r="1.4" fill="#ff5a1f"/><circle cx="16" cy="10.5" r="1.4" fill="#ff5a1f"/></svg>
     <svg class="zu" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
     <span class="chat-text">Chat</span>
   </button>
