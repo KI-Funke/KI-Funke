@@ -163,6 +163,8 @@
   .upgrade-titel { font-size: clamp(2.4rem, 6vw, 5rem); flex-basis: 100%; }
   .upgrade-text { flex-basis: 100%; color: var(--grau); font-size: 1.0625rem; }
   .upgrade-satz { font-size: 1.2rem; color: var(--text); font-weight: 500; }
+  .ausprobieren { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; padding: 18px 22px; border: 1.5px solid var(--glut); border-radius: 18px; background: rgba(255, 90, 31, .08); }
+  .ausprobieren p { flex: 1 1 320px; font-size: 1.0625rem; }
   .angebot-hinweis { display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; background: rgba(255, 90, 31, .12); border: 1px solid rgba(255, 90, 31, .4); color: var(--glut-hell); font-weight: 600; font-size: .95rem; }
   .plaene { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
   .plan { display: flex; flex-direction: column; gap: 14px; padding: 28px 24px; border: 1px solid var(--linie); border-radius: 20px; background: var(--karte); }
@@ -503,6 +505,10 @@
       <div class="upgrade-kopf erster">
         <h2 id="chat-titel" class="upgrade-titel">Chat-Assistent als Upgrade</h2>
         <p class="upgrade-text upgrade-satz">Kunden erwarten heute sofort eine Antwort. Ihr Chat-Assistent gibt sie, rund um die Uhr.</p>
+        <div class="ausprobieren">
+          <p><strong>Probieren Sie es gleich aus:</strong> Unser KI-Assistent unten rechts beantwortet Ihre Fragen – so oder so ähnlich kann er auch auf Ihrer Webseite für Sie arbeiten.</p>
+          <button class="btn" type="button" id="robofy-oeffnen">Jetzt ausprobieren <span class="pfeil" aria-hidden="true">↘</span></button>
+        </div>
         <p class="angebot-hinweis"><svg width="14" height="14" aria-hidden="true"><use href="#funke"/></svg> Einführungspreis für alle Aufträge bis 31.12.2026</p>
         <p class="upgrade-text">Einmalige Einrichtung plus monatliche Betreuung. Monatlich kündbar.</p>
       </div>
@@ -766,6 +772,14 @@
     }, { rootMargin: '-45% 0px -50% 0px' });
     links.forEach(function (a) { const ziel = document.querySelector(a.getAttribute('href')); if (ziel) beobachter.observe(ziel); });
 
+    // "Jetzt ausprobieren" öffnet den Robofy-Chat (window.AgentWidget); ist er noch nicht geladen, kurzer Hinweis
+    document.getElementById('robofy-oeffnen').addEventListener('click', function () {
+      const w = window.AgentWidget;
+      if (w && typeof w.open === 'function') w.open();
+      else if (w && typeof w.toggle === 'function') w.toggle();
+      else alert('Der Chat lädt gerade. Er erscheint gleich unten rechts.');
+    });
+
     // "Chat-Demo testen" öffnet den echten Chat (lädt Chatbase erst jetzt)
     document.getElementById('demo-ausprobieren').addEventListener('click', function () { window.fdkbChatOeffnen(); });
   })();
@@ -880,5 +894,7 @@ function verlaufPruefen() {
 }
 </script>
 
+<!-- Robofy-Chat -->
+<script> (function () { var s = document.createElement("script"); s.src = "https://agents.robofy.ai/embed/agent-widget.js?v=" + Date.now(); s.setAttribute("data-pid", "4740"); s.setAttribute("data-cid", "6yVMIreD1zwwVTJgNh9tzM2h43vsd7iPMniNgx2ariw"); document.body.appendChild(s); })(); </script>
 </body>
 </html>
