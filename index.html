@@ -103,12 +103,13 @@
   .knoepfe { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 540px; margin-top: 28px; }
 
   /* Geräte-Mockup im Hero: ki-funke.de auf Laptop und Handy */
-  .geraete { position: relative; margin: 0 7% 6% 0; }
+  .geraete { position: relative; margin: 0 7% 9% 9%; }
   .geraete::before { content: ""; position: absolute; z-index: -1; inset: 10% -10% -10% 0; background: radial-gradient(closest-side, rgba(255, 90, 31, .28), transparent); pointer-events: none; }
   .laptop-schirm { aspect-ratio: 16 / 10; overflow: hidden; border: clamp(6px, .9vw, 11px) solid #1b1d23; border-bottom-width: clamp(10px, 1.4vw, 16px); border-radius: 14px 14px 0 0; background: #000; box-shadow: 0 0 0 1px #30333b; }
-  .laptop-schirm img, .handy img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .laptop-schirm img, .tablet img, .handy img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
   .laptop-fuss { position: relative; height: clamp(10px, 1.3vw, 16px); margin: 0 -7%; border-radius: 0 0 14px 14px; background: linear-gradient(#3a3d45, #17191e); box-shadow: 0 24px 50px -20px rgba(0, 0, 0, .9); }
   .laptop-fuss::before { content: ""; position: absolute; left: 50%; top: 0; width: 16%; height: 40%; translate: -50% 0; border-radius: 0 0 8px 8px; background: #101216; }
+  .tablet { position: absolute; left: -11%; bottom: -10%; width: 34%; aspect-ratio: 3 / 4; overflow: hidden; border: clamp(5px, .8vw, 9px) solid #1b1d23; border-radius: clamp(12px, 1.6vw, 20px); background: #000; box-shadow: 0 0 0 1px #30333b, 12px 20px 40px -12px rgba(0, 0, 0, .9); }
   .handy { position: absolute; right: -7%; bottom: -6%; width: 24%; aspect-ratio: 9 / 19.5; overflow: hidden; border: clamp(4px, .6vw, 7px) solid #1b1d23; border-radius: clamp(16px, 2.2vw, 26px); background: #000; box-shadow: 0 0 0 1px #30333b, -12px 20px 40px -12px rgba(0, 0, 0, .9); }
 
   /* Nutzen-Block unter dem Hero */
@@ -121,7 +122,7 @@
   .vertrauen svg { width: 20px; height: 20px; flex: none; color: var(--glut); }
 
   /* Beispiel-Chat beim Chat-Assistenten: zeigt das Prinzip, klar als erfunden markiert */
-  .beispiel { position: relative; max-width: 560px; margin: 52px 0 clamp(36px, 4vw, 56px); background: var(--karte); color: #e9e7e2; border: 1px solid var(--linie); border-radius: 22px; padding: 22px 22px 18px; box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8); }
+  .beispiel { position: relative; max-width: 560px; margin: clamp(64px, 7vw, 88px) auto 0; background: var(--karte); color: #e9e7e2; border: 1px solid var(--linie); border-radius: 22px; padding: 22px 22px 18px; box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8); }
   .beispiel-kopf { display: flex; align-items: center; gap: 10px; font-size: .9rem; padding-bottom: 14px; border-bottom: 1px solid var(--linie); }
   .beispiel-kopf .punkt { width: 9px; height: 9px; border-radius: 50%; background: #4ade80; flex: none; }
   .beispiel-kopf .zeit { margin-left: auto; color: var(--grau); font-variant-numeric: tabular-nums; }
@@ -324,7 +325,7 @@
     /* Abschnitte und Überschriften auf dem Handy */
     section { padding: 56px 0; }
     .kopf h2, .upgrade-titel, .faq h2, .kontakt h2, .ich h2 { font-size: 34px; line-height: 1.05; }
-    .beispiel { margin-top: 44px; }
+    .beispiel { margin-top: 56px; }
     .betreuung { grid-template-columns: minmax(0, 1fr); padding: 20px; }
     .betreuung svg { display: none; }
     .nutzen { font-size: 10.6vw; }
@@ -394,9 +395,10 @@
           <button class="btn hell" type="button" id="demo-ausprobieren" hidden>Chat-Demo testen</button>
         </div>
       </div>
-      <figure class="geraete" role="img" aria-label="Die Webseite ki-funke.de auf einem Laptop und einem Handy">
+      <figure class="geraete" role="img" aria-label="Die Webseite ki-funke.de auf Laptop, Tablet und Handy">
         <div class="laptop-schirm"><img src="img/screen-desktop.jpg" alt="" width="1280" height="800" fetchpriority="high"></div>
         <div class="laptop-fuss"></div>
+        <div class="tablet"><img src="img/screen-tablet.jpg" alt="" width="768" height="1024"></div>
         <div class="handy"><img src="img/screen-handy.jpg" alt="" width="390" height="845"></div>
       </figure>
     </div>
@@ -501,17 +503,6 @@
       <div class="upgrade-kopf erster">
         <h2 id="chat-titel" class="upgrade-titel">Chat-Assistent als Upgrade</h2>
         <p class="upgrade-text upgrade-satz">Kunden erwarten heute sofort eine Antwort. Ihr Chat-Assistent gibt sie, rund um die Uhr.</p>
-      </div>
-      <figure class="beispiel" aria-label="Beispiel mit frei erfundenem Betrieb: Ein KI-Assistent beantwortet nachts eine Kundenfrage.">
-        <svg class="funke-deko" aria-hidden="true"><use href="#funke"/></svg>
-        <div class="beispiel-kopf" aria-hidden="true"><span class="punkt"></span> Assistent von Salon Beispiel <span class="zeit">23:41 Uhr</span></div>
-        <div class="blasen">
-          <p class="blase kunde">Haben Sie am Samstag geöffnet?</p>
-          <p class="blase ki">Ja, samstags von 9 bis 14 Uhr. Soll ich Ihren Terminwunsch an den Salon weitergeben?</p>
-        </div>
-        <figcaption class="erfunden">Beispiel, Betrieb frei erfunden</figcaption>
-      </figure>
-      <div class="upgrade-kopf erster">
         <p class="angebot-hinweis"><svg width="14" height="14" aria-hidden="true"><use href="#funke"/></svg> Einführungspreis für alle Aufträge bis 31.12.2026</p>
         <p class="upgrade-text">Einmalige Einrichtung plus monatliche Betreuung. Monatlich kündbar.</p>
       </div>
@@ -564,6 +555,15 @@
         <p>Die Gesprächsmengen sind Richtwerte (faire Nutzung). Bei dauerhaft höherem Bedarf sprechen wir gemeinsam über ein größeres Paket.</p>
         <p>Alle Preise sind Endpreise. Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.</p>
       </div>
+      <figure class="beispiel" aria-label="Beispiel mit frei erfundenem Betrieb: Ein KI-Assistent beantwortet nachts eine Kundenfrage.">
+        <svg class="funke-deko" aria-hidden="true"><use href="#funke"/></svg>
+        <div class="beispiel-kopf" aria-hidden="true"><span class="punkt"></span> Assistent von Salon Beispiel <span class="zeit">23:41 Uhr</span></div>
+        <div class="blasen">
+          <p class="blase kunde">Haben Sie am Samstag geöffnet?</p>
+          <p class="blase ki">Ja, samstags von 9 bis 14 Uhr. Soll ich Ihren Terminwunsch an den Salon weitergeben?</p>
+        </div>
+        <figcaption class="erfunden">Beispiel, Betrieb frei erfunden</figcaption>
+      </figure>
     </div>
   </section>
 
