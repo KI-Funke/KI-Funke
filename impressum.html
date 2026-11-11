@@ -76,10 +76,10 @@
 <footer>
   <div class="wrap">© 2026 KI-Funke.de · <a href="index.html">Startseite</a> · <a href="datenschutz.html">Datenschutz</a></div>
 </footer>
-<!-- Robofy-Chat-Knopf: eigene weiße Sprechblase mit Augen (img/chat-knopf.svg) statt des im Robofy-Konto hinterlegten Symbols -->
+<!-- Robofy-Chat-Knopf: eigene weiße Sprechblase mit Augen (Grafik direkt eingebettet, Vorlage: img/chat-knopf.svg) statt des im Robofy-Konto hinterlegten Symbols -->
 <style>
   button[aria-label="Open chat"] img[alt="Widget Bubble icon"] { display: none !important; }
-  body:not(.chat-auf) button[aria-label="Open chat"] { background: #ff5a1f url(/img/chat-knopf.svg) center / 100% no-repeat !important; }
+  body:not(.chat-auf) button[aria-label="Open chat"] { background: #ff5a1f url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2056%2056%22%3E%3Cstyle%3E%20.blick%20%7B%20animation%3A%20blick%206s%20ease-in-out%20infinite%3B%20%7D%20.lid%20%7B%20animation%3A%20blinzeln%206s%20linear%20infinite%3B%20transform-origin%3A%2028px%2026px%3B%20%7D%20%40keyframes%20blick%20%7B%200%25%2C%2018%25%20%7B%20transform%3A%20translateX(0)%3B%20%7D%2026%25%2C%2042%25%20%7B%20transform%3A%20translateX(-3.5px)%3B%20%7D%2052%25%2C%2068%25%20%7B%20transform%3A%20translateX(3.5px)%3B%20%7D%2078%25%2C%20100%25%20%7B%20transform%3A%20translateX(0)%3B%20%7D%20%7D%20%40keyframes%20blinzeln%20%7B%200%25%2C%2086%25%2C%2092%25%2C%20100%25%20%7B%20transform%3A%20scaleY(1)%3B%20%7D%2089%25%20%7B%20transform%3A%20scaleY(.12)%3B%20%7D%20%7D%20%40media%20(prefers-reduced-motion%3A%20reduce)%20%7B%20.blick%2C%20.lid%20%7B%20animation%3A%20none%3B%20%7D%20%7D%20%3C%2Fstyle%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M15%2013h26a7%207%200%200%201%207%207v12a7%207%200%200%201-7%207H27l-8%206.5V39h-4a7%207%200%200%201-7-7V20a7%207%200%200%201%207-7z%22%2F%3E%3Cg%20class%3D%22lid%22%3E%3Cg%20class%3D%22blick%22%20fill%3D%22%2307080b%22%3E%3Cellipse%20cx%3D%2221.5%22%20cy%3D%2226%22%20rx%3D%223.4%22%20ry%3D%224.6%22%2F%3E%3Cellipse%20cx%3D%2234.5%22%20cy%3D%2226%22%20rx%3D%223.4%22%20ry%3D%224.6%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E") center / 100% no-repeat !important; }
 </style>
 <script>
   (function () {
