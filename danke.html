@@ -63,6 +63,23 @@
 <footer>
   <div class="wrap">© 2026 KI-Funke.de · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></div>
 </footer>
+<!-- Robofy-Chat-Knopf: eigene weiße Sprechblase mit Augen (img/chat-knopf.svg) statt des im Robofy-Konto hinterlegten Symbols -->
+<style>
+  button[aria-label="Open chat"] img[alt="Widget Bubble icon"] { display: none !important; }
+  body:not(.chat-auf) button[aria-label="Open chat"] { background: #ff5a1f url(/img/chat-knopf.svg) center / 100% no-repeat !important; }
+</style>
+<script>
+  (function () {
+    var versuche = 0;
+    function verbinden() {
+      var w = window.AgentWidget;
+      if (!w || typeof w.on !== 'function') { if (++versuche < 100) setTimeout(verbinden, 300); return; }
+      w.on('open', function () { document.body.classList.add('chat-auf'); });
+      w.on('close', function () { document.body.classList.remove('chat-auf'); });
+    }
+    verbinden();
+  })();
+</script>
 <!-- Robofy-Chat -->
 <script> (function () { var s = document.createElement("script"); s.src = "https://agents.robofy.ai/embed/agent-widget.js?v=" + Date.now(); s.setAttribute("data-pid", "4740"); s.setAttribute("data-cid", "6yVMIreD1zwwVTJgNh9tzM2h43vsd7iPMniNgx2ariw"); document.body.appendChild(s); })(); </script>
 </body>
