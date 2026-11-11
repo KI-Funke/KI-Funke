@@ -255,6 +255,19 @@
   .formular textarea { resize: vertical; min-height: 120px; }
   .formular input:focus-visible, .formular textarea:focus-visible { outline: 3px solid var(--glut); outline-offset: 1px; border-color: var(--glut); }
   .formular-hinweis { font-size: .9rem; color: var(--grau); }
+  .formular-fehler { padding: 12px 14px; border: 1.5px solid #f87171; border-radius: 12px; background: rgba(248, 113, 113, .1); color: #fecaca; font-size: 1rem; }
+  .formular-fehler a { color: #fff; }
+  .formular button[aria-busy="true"] { opacity: .75; cursor: progress; }
+  /* Bestätigung nach dem Absenden: gleiches Design wie danke.html */
+  .formular-danke { padding: clamp(28px, 4vw, 44px) clamp(20px, 3vw, 36px); text-align: center; border: 1px solid var(--linie); border-radius: 20px; background: radial-gradient(80% 60% at 50% 0%, rgba(255, 90, 31, .16), transparent 70%), var(--karte); }
+  .formular-danke:focus { outline: none; }
+  .danke-haken { display: grid; place-items: center; width: 72px; height: 72px; margin: 0 auto 20px; border-radius: 50%; background: var(--glut); color: var(--grund); animation: auftauchen .5s var(--ease) both; }
+  .danke-haken svg { width: 34px; height: 34px; }
+  .formular-danke h3 { font-size: clamp(2.2rem, 5vw, 3.2rem); margin-bottom: 14px; }
+  .formular-danke p { color: #d9d7d2; }
+  .formular-danke .danke-klein { margin-top: 10px; color: var(--grau); }
+  .formular-danke a { color: var(--glut-hell); }
+  @keyframes auftauchen { from { scale: .6; opacity: 0; } to { scale: 1; opacity: 1; } }
 
   /* Fußzeile */
   footer { background: #040507; color: var(--grau); padding: 64px 0; border-top: 1px solid var(--linie); }
@@ -696,10 +709,12 @@
         <p>E-Mail: <a href="mailto:info@ki-funke.de">info@ki-funke.de</a></p>
         <p>Telefon: <a href="tel:+491714021134">0171 4021134</a></p>
       </div>
-      <!-- Versand über Web3Forms (https://web3forms.com); nach dem Absenden geht es zur Danke-Seite -->
-      <form class="formular" name="kontakt" method="POST" action="https://api.web3forms.com/submit">
-        <input type="hidden" name="access_key" value="3129194d-b096-413f-9870-8186a0a6860a">
-        <input type="hidden" name="subject" value="Neue Anfrage über KI-Funke.de">
+      <!-- Versand über Web3Forms (https://web3forms.com). Mit JavaScript wird per fetch gesendet und man bleibt auf der Seite;
+           ohne JavaScript schickt der Browser das Formular normal ab und landet danach auf danke.html. -->
+      <div class="formular-rahmen">
+      <form class="formular" id="kontaktformular" name="kontakt" method="POST" action="https://api.web3forms.com/submit">
+        <input type="hidden" name="access_key" value="bebc165b-1b05-4c0a-bbd0-06982f1ce547">
+        <input type="hidden" name="subject" value="Neue Anfrage über ki-funke.de">
         <input type="hidden" name="from_name" value="KI-Funke.de Kontaktformular">
         <input type="hidden" name="redirect" value="https://ki-funke.de/danke.html">
         <!-- Spamschutz: Menschen sehen dieses Feld nicht, Bots kreuzen es oft an -->
@@ -719,9 +734,20 @@
           <label class="haken"><input type="checkbox" name="interesse_grafik" value="Logo &amp; Grafik"> Logo &amp; Grafik</label>
           <label class="haken"><input type="checkbox" name="interesse_sonstiges" value="Sonstiges"> Sonstiges</label>
         </fieldset>
+        <label for="kontakt-nachricht"><span>Ihre Nachricht <span class="optional">(optional)</span></span>
+          <textarea name="message" id="kontakt-nachricht" rows="4" placeholder="z. B. Friseursalon in Vaterstetten, brauche eine neue Webseite"></textarea></label>
         <p class="formular-hinweis">Ihre Angaben verwende ich nur, um Ihre Anfrage zu beantworten. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
-        <button class="btn voll" type="submit">Anfrage senden <span class="pfeil" aria-hidden="true">→</span></button>
+        <p class="formular-fehler" id="formular-fehler" role="alert" hidden></p>
+        <button class="btn voll" type="submit" id="formular-senden">Anfrage senden <span class="pfeil" aria-hidden="true">→</span></button>
       </form>
+      <!-- Bestätigung nach erfolgreichem Versand (gleiches Design wie danke.html) -->
+      <div class="formular-danke" id="formular-danke" tabindex="-1" hidden>
+        <div class="danke-haken" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Danke für Ihre <span class="hand">Anfrage!</span></h3>
+        <p>Ihre Nachricht ist bei mir angekommen. Ich melde mich persönlich bei Ihnen, in der Regel innerhalb von 24 Stunden.</p>
+        <p class="danke-klein">Eilig? Rufen Sie mich an: <a href="tel:+491714021134">0171 4021134</a></p>
+      </div>
+      </div>
     </div>
   </section>
 </main>
@@ -782,6 +808,51 @@
 
     // "Chat-Demo testen" öffnet den echten Chat (lädt Chatbase erst jetzt)
     document.getElementById('demo-ausprobieren').addEventListener('click', function () { window.fdkbChatOeffnen(); });
+  })();
+</script>
+
+<script>
+  // Kontaktformular: per fetch an Web3Forms senden, auf der Seite bleiben, Erfolg oder Fehler anzeigen
+  (function () {
+    const form = document.getElementById('kontaktformular');
+    const knopf = document.getElementById('formular-senden');
+    const fehler = document.getElementById('formular-fehler');
+    const danke = document.getElementById('formular-danke');
+    const knopfText = knopf.innerHTML;
+
+    function fehlerZeigen(text) {
+      fehler.innerHTML = text + ' Bitte versuchen Sie es noch einmal oder schreiben Sie direkt an <a href="mailto:info@ki-funke.de">info@ki-funke.de</a>.';
+      fehler.hidden = false;
+    }
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      fehler.hidden = true;
+      knopf.disabled = true;
+      knopf.setAttribute('aria-busy', 'true');
+      knopf.textContent = 'Wird gesendet …';
+
+      const daten = new FormData(form);
+      daten.delete('redirect'); // nur für den Versand ohne JavaScript
+      try {
+        const antwort = await fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body: daten });
+        const ergebnis = await antwort.json().catch(function () { return {}; });
+        if (antwort.ok && ergebnis.success) {
+          form.reset();
+          form.hidden = true;
+          danke.hidden = false;
+          danke.focus();
+          return;
+        }
+        fehlerZeigen('Die Anfrage konnte leider nicht gesendet werden' + (ergebnis.message ? ' (' + ergebnis.message + ').' : '.'));
+      } catch (err) {
+        fehlerZeigen('Keine Verbindung. Ihre Anfrage wurde nicht gesendet.');
+      }
+      knopf.disabled = false;
+      knopf.removeAttribute('aria-busy');
+      knopf.innerHTML = knopfText;
+    });
   })();
 </script>
 
