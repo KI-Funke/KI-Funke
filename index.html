@@ -132,7 +132,17 @@
   .blase.kunde { justify-self: end; background: #23262d; border-bottom-right-radius: 5px; }
   .blase.ki { background: #f3f1ec; color: #111; border-bottom-left-radius: 5px; }
   .erfunden { font-size: .875rem; color: var(--grau); }
-  .funke-deko { position: absolute; top: -26px; right: 22px; width: 52px; height: 52px; color: var(--glut); }
+  .funke-deko { position: absolute; top: -38px; right: -18px; width: 52px; height: 52px; color: var(--glut); }
+  /* Animation: Beispiele wechseln (Skript unten, nur ohne "Bewegung reduzieren") */
+  .blasen { align-content: start; transition: opacity .4s ease; }
+  .blasen.weg { opacity: 0; }
+  .blasen .blase { transition: opacity .35s ease, transform .35s ease; }
+  .blasen .blase.neu { opacity: 0; transform: translateY(8px); }
+  .blase.tippt { justify-self: start; display: flex; gap: 5px; padding: 16px 16px; }
+  .blase.tippt span { width: 7px; height: 7px; border-radius: 50%; background: #8a8a8a; animation: tippen 1s infinite ease-in-out; }
+  .blase.tippt span:nth-child(2) { animation-delay: .15s; }
+  .blase.tippt span:nth-child(3) { animation-delay: .3s; }
+  @keyframes tippen { 0%, 60%, 100% { opacity: .3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
 
   /* Abschnitte */
   section { padding: var(--abstand) 0; }
@@ -342,6 +352,7 @@
     section { padding: 56px 0; }
     .kopf h2, .upgrade-titel, .faq h2, .kontakt h2, .ich h2 { font-size: 34px; line-height: 1.05; }
     .beispiel { margin-top: 56px; }
+    .funke-deko { right: -6px; }
     .betreuung { grid-template-columns: minmax(0, 1fr); padding: 20px; }
     .betreuung svg { display: none; }
     .nutzen { font-size: 10.6vw; }
@@ -575,14 +586,14 @@
         <p>Die Gesprächsmengen sind Richtwerte (faire Nutzung). Bei dauerhaft höherem Bedarf sprechen wir gemeinsam über ein größeres Paket.</p>
         <p>Alle Preise sind Endpreise. Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.</p>
       </div>
-      <figure class="beispiel" aria-label="Beispiel mit frei erfundenem Betrieb: Ein KI-Assistent beantwortet nachts eine Kundenfrage.">
+      <figure class="beispiel" aria-label="Beispiele mit frei erfundenen Betrieben: Ein KI-Assistent beantwortet abends Kundenfragen für Friseur, Autowerkstatt, Restaurant und Handwerker.">
         <svg class="funke-deko" aria-hidden="true"><use href="#funke"/></svg>
-        <div class="beispiel-kopf" aria-hidden="true"><span class="punkt"></span> Assistent von Salon Beispiel <span class="zeit">23:41 Uhr</span></div>
-        <div class="blasen">
+        <div class="beispiel-kopf" aria-hidden="true"><span class="punkt"></span> <span>Assistent von <span class="betrieb">Salon Beispiel</span></span> <span class="zeit">23:41 Uhr</span></div>
+        <div class="blasen" aria-hidden="true">
           <p class="blase kunde">Haben Sie am Samstag geöffnet?</p>
           <p class="blase ki">Ja, samstags von 9 bis 14 Uhr. Soll ich Ihren Terminwunsch an den Salon weitergeben?</p>
         </div>
-        <figcaption class="erfunden">Beispiel, Betrieb frei erfunden</figcaption>
+        <figcaption class="erfunden">Beispiele, Betriebe frei erfunden</figcaption>
       </figure>
     </div>
   </section>
@@ -984,6 +995,80 @@ function verlaufPruefen() {
   })();
 </script>
 <!-- Robofy-Chat -->
+<script>
+/* Chat-Beispiel: wechselt zwischen mehreren erfundenen Betrieben */
+(function () {
+  var fig = document.querySelector('.beispiel');
+  if (!fig || !window.matchMedia || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var B = [
+    { name: 'Salon Beispiel', zeit: '23:41 Uhr', frage: 'Haben Sie am Samstag geöffnet?', antwort: 'Ja, samstags von 9 bis 14 Uhr. Soll ich Ihren Terminwunsch an den Salon weitergeben?' },
+    { name: 'Autowerkstatt Beispiel', zeit: '21:17 Uhr', frage: 'Was kostet bei Ihnen ein Reifenwechsel?', antwort: 'Der Wechsel auf Winterreifen kostet 40 €. Möchten Sie gleich einen Termin anfragen?' },
+    { name: 'Trattoria Beispiel', zeit: '22:58 Uhr', frage: 'Kann ich für Freitag einen Tisch für 4 Personen reservieren?', antwort: 'Gern! Um wie viel Uhr möchten Sie kommen? Ich gebe Ihre Reservierung dann an das Restaurant weiter.' },
+    { name: 'Sanitär Beispiel', zeit: '22:05 Uhr', frage: 'Machen Sie auch kleine Reparaturen?', antwort: 'Ja, auch kleine Aufträge wie einen tropfenden Wasserhahn. Beschreiben Sie kurz das Problem, dann meldet sich der Meister bei Ihnen.' }
+  ];
+  var betrieb = fig.querySelector('.betrieb'), zeit = fig.querySelector('.zeit'), blasen = fig.querySelector('.blasen');
+  var i = 0, gestartet = false;
+
+  // Feste Höhe = höchstes Beispiel, damit die Seite beim Wechsel nicht springt
+  function hoehe() {
+    var probe = blasen.cloneNode(false);
+    probe.style.cssText = 'position:absolute;visibility:hidden;left:0;top:0;width:' + blasen.getBoundingClientRect().width + 'px';
+    fig.appendChild(probe);
+    var max = 0;
+    B.forEach(function (b) {
+      probe.innerHTML = '<p class="blase kunde"></p><p class="blase ki"></p>';
+      probe.children[0].textContent = b.frage;
+      probe.children[1].textContent = b.antwort;
+      max = Math.max(max, probe.offsetHeight);
+    });
+    fig.removeChild(probe);
+    blasen.style.minHeight = max + 'px';
+    // Kopfzeile: lange Namen brechen am Handy um, also auch hier die größte Höhe reservieren
+    var kopf = fig.querySelector('.beispiel-kopf'), jetzt = betrieb.textContent, kmax = 0;
+    kopf.style.minHeight = '';
+    B.forEach(function (b) { betrieb.textContent = b.name; kmax = Math.max(kmax, kopf.offsetHeight); });
+    betrieb.textContent = jetzt;
+    kopf.style.minHeight = kmax + 'px';
+  }
+
+  function blase(art, text) {
+    var p = document.createElement('p');
+    p.className = 'blase ' + art + ' neu';
+    if (text) p.textContent = text; else { p.classList.add('tippt'); p.innerHTML = '<span></span><span></span><span></span>'; }
+    blasen.appendChild(p);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { p.classList.remove('neu'); }); });
+    return p;
+  }
+
+  function weiter() {
+    blasen.classList.add('weg');
+    setTimeout(function () {
+      i = (i + 1) % B.length;
+      var b = B[i];
+      betrieb.textContent = b.name;
+      zeit.textContent = b.zeit;
+      blasen.innerHTML = '';
+      blasen.classList.remove('weg');
+      setTimeout(function () { blase('kunde', b.frage); }, 300);
+      setTimeout(function () {
+        var t = blase('ki');
+        setTimeout(function () { t.remove(); blase('ki', b.antwort); }, 1500);
+      }, 1200);
+      setTimeout(weiter, 7500);
+    }, 450);
+  }
+
+  hoehe();
+  window.addEventListener('resize', hoehe);
+  // Erst loslegen, wenn das Beispiel im Bild ist
+  var start = function () { if (!gestartet) { gestartet = true; setTimeout(weiter, 3500); } };
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting) { start(); io.disconnect(); } }, { threshold: .4 });
+    io.observe(fig);
+  } else start();
+})();
+</script>
+
 <script> (function () { var s = document.createElement("script"); s.src = "https://agents.robofy.ai/embed/agent-widget.js?v=" + Date.now(); s.setAttribute("data-pid", "4740"); s.setAttribute("data-cid", "6yVMIreD1zwwVTJgNh9tzM2h43vsd7iPMniNgx2ariw"); document.body.appendChild(s); })(); </script>
 </body>
 </html>
