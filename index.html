@@ -346,6 +346,33 @@
     .nav ul a::after { display: none; }
   }
 
+  /* Inspiration: Laufband mit Design-Ideen + Lightbox */
+  .inspiration { overflow: hidden; }
+  .laufband { list-style: none; margin: 0; display: flex; align-items: flex-start; gap: clamp(18px, 2.2vw, 32px); overflow-x: auto; padding: 8px var(--rand) 30px; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+  .laufband::-webkit-scrollbar { display: none; }
+  .laufband.ruhig { scroll-snap-type: x mandatory; scroll-padding: 0 var(--rand); }
+  .laufband.ruhig .idee { scroll-snap-align: start; }
+  .idee { position: relative; flex: none; --bildhoehe: 300px; }
+  .idee button { display: block; padding: 0; margin: 0; border: 0; background: none; color: var(--text); font: inherit; text-align: left; cursor: zoom-in; border-radius: 14px; }
+  .idee button:focus-visible { outline: 3px solid var(--glut); outline-offset: 4px; }
+  .rahmen { border-radius: 14px; overflow: hidden; background: var(--karte); border: 1px solid var(--linie); box-shadow: 0 18px 40px -18px rgba(0,0,0,.85); transition: transform .35s var(--ease), border-color .35s var(--ease); }
+  .idee button:hover .rahmen { transform: translateY(-4px); border-color: rgba(255,90,31,.55); }
+  .rahmen-leiste { height: 14px; background: #1a1d24; border-bottom: 1px solid var(--linie); }
+  .rahmen img { display: block; width: auto; height: var(--bildhoehe); max-width: none; background: #1a1d24; }
+  .idee.idee-handy .rahmen { border-radius: 30px; padding: 9px; background: #15171c; border: 1px solid #2c3039; }
+  .idee.idee-handy .rahmen-leiste { width: 56px; height: 6px; margin: 4px auto 9px; border: 0; border-radius: 99px; background: #2c3039; }
+  .idee.idee-handy img { width: calc((var(--bildhoehe) - 23px) * 9 / 17.5); height: calc(var(--bildhoehe) - 23px); object-fit: cover; border-radius: 21px; }
+  .idee-unter { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; font-size: .95rem; font-weight: 600; color: #d9d7d2; }
+  .demo-schild { flex: none; font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--grau); border: 1px solid var(--linie); border-radius: 999px; padding: 2px 9px; }
+  .inspiration-knopf { margin-top: clamp(8px, 1.5vw, 18px); }
+  @media (min-width: 1240px) { .laufband { padding-left: calc((100% - 1240px) / 2 + var(--rand)); } }
+  .lightbox { width: min(1400px, 94vw); max-width: none; max-height: 92vh; padding: 0; border: 1px solid var(--linie); border-radius: 14px; background: var(--karte); color: var(--text); overflow: hidden; }
+  .lightbox::backdrop { background: rgba(4,5,7,.88); }
+  .lightbox img { display: block; width: 100%; height: auto; max-height: calc(92vh - 46px); object-fit: contain; background: #000; }
+  .lightbox-kopf { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 4px 4px 16px; font-size: .95rem; font-weight: 600; }
+  .lightbox-zu { width: 44px; height: 38px; border: 0; border-radius: 10px; background: none; color: var(--text); font-size: 1.6rem; line-height: 1; cursor: pointer; }
+  .lightbox-zu:hover, .lightbox-zu:focus-visible { background: #22252d; outline: none; }
+
   /* Handy: eigenes Layout, nicht nur verkleinert */
   @media (max-width: 767px) {
     .nav { height: 60px; gap: 12px; }
@@ -379,6 +406,8 @@
     .schritt + .schritt { padding-top: 28px; border-top: 1px solid var(--linie); }
     .ich { grid-template-columns: minmax(0, 1fr); }
     .ich img { width: 104px; height: 104px; }
+    .idee:not(.idee-handy) img { width: 80vw; height: auto; }
+    .idee.idee-handy { --bildhoehe: 300px; }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -452,6 +481,87 @@
         <li>Mehr <mark>Kunden</mark></li>
       </ul>
     </div>
+  </section>
+
+  <section class="inspiration" id="inspiration" aria-labelledby="inspiration-titel">
+    <div class="wrap">
+      <div class="upgrade-kopf erster">
+        <h2 id="inspiration-titel" class="upgrade-titel">Welcher Stil passt zu Ihnen?</h2>
+        <p class="upgrade-text upgrade-satz">Design-Ideen für verschiedene Branchen. Alle Namen sind erfunden. Ihre Seite gestalte ich individuell für Sie.</p>
+      </div>
+    </div>
+    <ul class="laufband" id="laufband" aria-label="Design-Ideen, zum Ansehen seitlich wischen">
+      <li class="idee"><button type="button" data-gross="immobilien-haus" aria-label="Design-Idee Immobilienberater groß ansehen"><div class="rahmen"><div class="rahmen-leiste"></div><picture><source type="image/webp" srcset="img/inspiration/immobilien-haus-klein.webp"><img src="img/inspiration/immobilien-haus-klein.jpg" alt="Demo-Design für eine Webseite: Immobilienberater" width="800" height="485" loading="lazy" decoding="async"></picture></div><div class="idee-unter">Immobilienberater <span class="demo-schild">Demo</span></div></button></li>
+      <li class="idee"><button type="button" data-gross="fotografin" aria-label="Design-Idee Fotografin groß ansehen"><div class="rahmen"><div class="rahmen-leiste"></div><picture><source type="image/webp" srcset="img/inspiration/fotografin-klein.webp"><img src="img/inspiration/fotografin-klein.jpg" alt="Demo-Design für eine Webseite: Fotografin" width="800" height="416" loading="lazy" decoding="async"></picture></div><div class="idee-unter">Fotografin <span class="demo-schild">Demo</span></div></button></li>
+      <li class="idee"><button type="button" data-gross="nagelstudio" aria-label="Design-Idee Nagelstudio groß ansehen"><div class="rahmen"><div class="rahmen-leiste"></div><picture><source type="image/webp" srcset="img/inspiration/nagelstudio-klein.webp"><img src="img/inspiration/nagelstudio-klein.jpg" alt="Demo-Design für eine Webseite: Nagelstudio" width="800" height="387" loading="lazy" decoding="async"></picture></div><div class="idee-unter">Nagelstudio <span class="demo-schild">Demo</span></div></button></li>
+      <li class="idee idee-handy"><button type="button" data-gross="friseur" aria-label="Design-Idee Friseursalon groß ansehen"><div class="rahmen"><div class="rahmen-leiste"></div><picture><source type="image/webp" srcset="img/inspiration/friseur.webp"><img src="img/inspiration/friseur.jpg" alt="Demo-Design für eine Webseite: Friseursalon" width="957" height="643" loading="lazy" decoding="async" style="object-position: 66% 0"></picture></div><div class="idee-unter">Friseursalon <span class="demo-schild">Demo</span></div></button></li>
+      <li class="idee"><button type="button" data-gross="metzgerei" aria-label="Design-Idee Metzgerei groß ansehen"><div class="rahmen"><div class="rahmen-leiste"></div><picture><source type="image/webp" srcset="img/inspiration/metzgerei-klein.webp"><img src="img/inspiration/metzgerei-klein.jpg" alt="Demo-Design für eine Webseite: Metzgerei" width="800" height="464" loading="lazy" decoding="async"></picture></div><div class="idee-unter">Metzgerei <span class="demo-schild">Demo</span></div></button></li>
+      <li class="idee idee-handy"><button type="button" data-gross="yoga-studio" aria-label="Design-Idee Yoga-Studio groß ansehen"><div class="rahmen"><div class="rahmen-leiste"></div><picture><source type="image/webp" srcset="img/inspiration/yoga-studio.webp"><img src="img/inspiration/yoga-studio.jpg" alt="Demo-Design für eine Webseite: Yoga-Studio" width="924" height="631" loading="lazy" decoding="async" style="object-position: 64% 0"></picture></div><div class="idee-unter">Yoga-Studio <span class="demo-schild">Demo</span></div></button></li>
+    </ul>
+    <div class="wrap">
+      <a class="btn inspiration-knopf" href="#kontakt">Ihre Wunsch-Webseite anfragen <span class="pfeil" aria-hidden="true">→</span></a>
+    </div>
+    <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-titel">
+      <div class="lightbox-kopf"><span id="lightbox-titel"></span><button type="button" class="lightbox-zu" aria-label="Schließen">×</button></div>
+      <picture><source type="image/webp" id="lightbox-webp"><img id="lightbox-bild" alt="" width="1200" height="700"></picture>
+    </dialog>
+    <script>
+    /* Laufband: langsam von rechts nach links, endlos; Pause bei Maus, Fokus und Wischen; aus bei reduzierter Bewegung.
+       Klick öffnet das Bild groß (Schließen per X, Esc oder Klick daneben). */
+    (function () {
+      var band = document.getElementById("laufband"), box = document.getElementById("lightbox");
+      if (!band) return;
+      var bild = document.getElementById("lightbox-bild"), webp = document.getElementById("lightbox-webp"), titel = document.getElementById("lightbox-titel");
+      var ausloeser = null;
+      function oeffnen(knopf) {
+        var n = knopf.getAttribute("data-gross"), kleinBild = knopf.querySelector("img");
+        webp.srcset = "img/inspiration/" + n + ".webp"; bild.src = "img/inspiration/" + n + ".jpg"; bild.alt = kleinBild.alt;
+        titel.textContent = knopf.querySelector(".idee-unter").firstChild.textContent.trim() + " · Demo-Design, Namen erfunden";
+        ausloeser = knopf;
+        if (box.showModal) { box.showModal(); stopp(); } else { window.open(bild.src, "_blank"); }
+      }
+      band.addEventListener("click", function (e) { var k = e.target.closest("button[data-gross]"); if (k) oeffnen(k); });
+      if (box) {
+        box.querySelector(".lightbox-zu").addEventListener("click", function () { box.close(); });
+        box.addEventListener("click", function (e) { if (e.target === box) box.close(); });
+        box.addEventListener("close", function () { if (ausloeser && !ausloeser.closest("[aria-hidden]")) ausloeser.focus({ preventScroll: true }); weiter(0); });
+      }
+
+      var ruhig = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var angehalten = false, weiterTimer = 0;
+      function stopp() { angehalten = true; clearTimeout(weiterTimer); }
+      function weiter(v) {
+        clearTimeout(weiterTimer);
+        weiterTimer = setTimeout(function () { if (box && box.open) return; pos = band.scrollLeft; var b = satzBreite(); if (pos >= b) { pos -= b; band.scrollLeft = pos; } angehalten = false; }, v || 0);
+      }
+      if (ruhig || !window.requestAnimationFrame) { band.classList.add("ruhig"); stopp = function () {}; weiter = function () {}; return; }
+      var original = Array.prototype.slice.call(band.children);
+      original.forEach(function (li) {
+        var kopie = li.cloneNode(true);
+        kopie.setAttribute("aria-hidden", "true");
+        kopie.querySelector("button").setAttribute("tabindex", "-1");
+        band.appendChild(kopie);
+      });
+      var tempo = 26, pos = 0, zuletzt = 0, sichtbar = true;
+      function satzBreite() { return band.children[original.length].offsetLeft - band.children[0].offsetLeft; }
+      function schritt(t) {
+        if (zuletzt && !angehalten && sichtbar) {
+          pos += tempo * Math.min(t - zuletzt, 100) / 1000;
+          var b = satzBreite(); if (pos >= b) pos -= b;
+          band.scrollLeft = pos;
+        }
+        zuletzt = t; requestAnimationFrame(schritt);
+      }
+      band.addEventListener("mouseenter", stopp);
+      band.addEventListener("mouseleave", function () { weiter(0); });
+      band.addEventListener("focusin", stopp);
+      band.addEventListener("focusout", function () { weiter(0); });
+      band.addEventListener("touchstart", stopp, { passive: true });
+      band.addEventListener("touchend", function () { weiter(2500); }, { passive: true });
+      if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { sichtbar = e[0].isIntersecting; }).observe(band);
+      requestAnimationFrame(schritt);
+    })();
+    </script>
   </section>
 
   <section id="webseiten" aria-labelledby="webseiten-titel">
