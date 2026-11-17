@@ -246,12 +246,20 @@
   summary::after { content: ""; flex: none; width: 12px; height: 12px; border-right: 2.5px solid var(--glut); border-bottom: 2.5px solid var(--glut); rotate: 45deg; translate: 0 -3px; transition: rotate .25s var(--ease); }
   details[open] summary::after { rotate: 225deg; translate: 0 3px; }
   summary:hover { color: var(--glut-hell); }
+  /* Am Desktop Platz rechts lassen, damit der Chat-Knopf unten rechts die Pfeile nicht verdeckt */
+  @media (min-width: 768px) { summary { padding-right: 44px; } }
   details p { padding: 0 0 20px; color: var(--grau); max-width: 40em; }
 
   /* Kontakt */
   .kontakt { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px 72px; align-items: start; }
   .kontakt h2 { font-size: clamp(2.4rem, 6vw, 5rem); margin-bottom: 20px; }
   .kontakt-text .lead { margin-bottom: 20px; }
+  /* Nach dem Absenden: drei Schritte, Ziffern wie im Abschnitt "So läuft es ab" */
+  .weiter { display: grid; gap: 18px; margin: 0 0 28px; padding: 0; list-style: none; counter-reset: weiter; }
+  .weiter li { display: flex; align-items: center; gap: 16px; counter-increment: weiter; font-size: clamp(1.1rem, 1.5vw, 1.3rem); color: #d9d7d2; }
+  .weiter li::before { content: counter(weiter); flex: none; width: 1.1em; font-family: var(--anton); font-size: clamp(2.2rem, 3.4vw, 2.8rem); line-height: 1; color: var(--glut); }
+  .antwortzeit { font-size: 1rem; font-weight: 600; color: var(--text); }
+  .ort-unten { margin: clamp(16px, 2vw, 22px) 0 0; }
   .kontakt-text a { color: var(--glut-hell); }
   .formular { display: grid; gap: 16px; padding: clamp(20px, 3vw, 32px); border-radius: 20px; background: var(--karte); border: 1px solid var(--linie); }
   .formular label { display: grid; gap: 6px; font-weight: 600; font-size: .95rem; }
@@ -412,8 +420,8 @@
   <div class="wrap hero">
     <div class="hero-unten">
       <div>
-        <p class="ort"><svg aria-hidden="true"><use href="#funke"/></svg> Webdesign &amp; KI aus Vaterstetten bei München</p>
         <h1>Ihre neue Webseite. Fertig in <span class="hand">wenigen Tagen.</span></h1>
+        <p class="ort ort-unten"><svg aria-hidden="true"><use href="#funke"/></svg> Webdesign aus Vaterstetten bei München</p>
         <p class="lead">Ich baue Webseiten für Handwerker, Restaurants, Friseure und andere kleine Betriebe, auf Wunsch mit KI-Chat-Assistent, der nachts Kundenfragen beantwortet. Logo, Grafik und Bilder gibt's aus derselben Hand.</p>
         <div class="knoepfe">
           <a class="btn" href="#kontakt">Unverbindlich anfragen <span class="pfeil" aria-hidden="true">→</span></a>
@@ -422,17 +430,17 @@
           <button class="btn hell" type="button" id="demo-ausprobieren" hidden>Chat-Demo testen</button>
         </div>
       </div>
-      <figure class="geraete" role="img" aria-label="Die Webseite ki-funke.de auf Laptop, Tablet und Handy">
-        <div class="laptop-schirm"><img src="img/screen-desktop.jpg" alt="" width="1280" height="800" fetchpriority="high"></div>
+      <figure class="geraete">
+        <div class="laptop-schirm"><img src="img/screen-desktop.jpg" alt="Beispiel-Webseite am Computer" width="1280" height="800" fetchpriority="high"></div>
         <div class="laptop-fuss"></div>
-        <div class="tablet"><img src="img/screen-tablet.jpg" alt="" width="768" height="1024"></div>
-        <div class="handy"><img src="img/screen-handy.jpg" alt="" width="390" height="845"></div>
+        <div class="tablet"><img src="img/screen-tablet.jpg" alt="Beispiel-Webseite auf dem Tablet" width="768" height="1024"></div>
+        <div class="handy"><img src="img/screen-handy.jpg" alt="Beispiel-Webseite auf dem Handy" width="390" height="845"></div>
       </figure>
     </div>
     <ul class="vertrauen" aria-label="Auf einen Blick">
       <li><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/></svg> Persönlich aus Vaterstetten</li>
       <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 18h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Fürs Handy optimiert</li>
-      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M3 12V4.5A1.5 1.5 0 0 1 4.5 3H12l9 9-9 9-9-9z"/><circle cx="7.5" cy="7.5" r="1.5" fill="currentColor"/></svg> Einmaliger Festpreis</li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M3 12V4.5A1.5 1.5 0 0 1 4.5 3H12l9 9-9 9-9-9z"/><circle cx="7.5" cy="7.5" r="1.5" fill="currentColor"/></svg> Sie bekommen vorab einen Festpreis, ohne Überraschungen.</li>
     </ul>
   </div>
 
@@ -450,13 +458,12 @@
     <div class="wrap">
       <div class="upgrade-kopf erster">
         <h2 id="webseiten-titel" class="upgrade-titel">Ihre neue Webseite: klare Pakete</h2>
-        <p class="upgrade-text upgrade-satz">Einmaliger Festpreis. Sie sehen vorab, was Sie bekommen.</p>
+        <p class="upgrade-text upgrade-satz">Sie bekommen vorab einen Festpreis, ohne Überraschungen.</p>
       </div>
       <div class="plaene">
         <div class="plan">
           <div class="etikett-feld">
             <p class="etikett">Einfach und günstig</p>
-            <p class="etikett-klein">Einführungspreis</p>
           </div>
           <h3>Basis</h3>
           <p class="preis"><small>ab</small> 399 €</p>
@@ -485,7 +492,7 @@
             <li>Kontaktformular</li>
             <li>Google-Maps-Karte</li>
             <li>Bildergalerie</li>
-            <li>Bei Google gut auffindbar</li>
+            <li>Für Google optimiert (Grundeinrichtung)</li>
             <li>Impressum und Datenschutz eingebunden</li>
             <li>Ihre Wünsche bis zur Freigabe umgesetzt</li>
           </ul>
@@ -509,7 +516,7 @@
             <li>Videos eingebunden</li>
             <li>Texte inklusive</li>
             <li>Bilder inklusive, auf Wunsch KI-Bilder</li>
-            <li>Bei Google gut auffindbar</li>
+            <li>Für Google optimiert (Grundeinrichtung)</li>
             <li>Impressum und Datenschutz eingebunden</li>
             <li>Ihre Wünsche bis zur Freigabe umgesetzt</li>
           </ul>
@@ -687,7 +694,7 @@
         </details>
         <details>
           <summary>Was kostet die Webseite laufend?</summary>
-          <p>Für Domain und Webhosting fallen laufende Kosten an. Die nenne ich Ihnen vorab im Angebot, damit Sie wissen, woran Sie sind. Der Chat-Assistent ist ein freiwilliges Upgrade ab 99 € im Monat.</p>
+          <p>Domain und Hosting ab 19 € im Monat, alternativ betreuen Sie die Seite selbst.</p>
         </details>
         <details>
           <summary>Gehört mir die Seite?</summary>
@@ -716,8 +723,19 @@
   <section id="kontakt" aria-labelledby="kontakt-titel">
     <div class="wrap kontakt">
       <div class="kontakt-text">
-        <h2 id="kontakt-titel">Erzählen Sie mir, was Sie brauchen.</h2>
-        <p class="lead">Ich melde mich bei Ihnen zurück. Kostenlos und unverbindlich.</p>
+        <div id="kontakt-vorher">
+          <h2 id="kontakt-titel">Erzählen Sie mir, was Sie brauchen.</h2>
+          <p class="lead">Ich melde mich bei Ihnen zurück. Kostenlos und unverbindlich.</p>
+        </div>
+        <!-- Wird nach erfolgreichem Absenden statt Überschrift und Untertext angezeigt -->
+        <div id="kontakt-nachher" hidden>
+          <h2>So geht's weiter</h2>
+          <ol class="weiter">
+            <li>Ich lese Ihre Anfrage.</li>
+            <li>Ich melde mich persönlich bei Ihnen.</li>
+            <li>Sie bekommen ein Angebot mit Festpreis.</li>
+          </ol>
+        </div>
         <p>E-Mail: <a href="mailto:info@ki-funke.de">info@ki-funke.de</a></p>
         <p>Telefon: <a href="tel:+491714021134">0171 4021134</a></p>
       </div>
@@ -750,6 +768,7 @@
           <textarea name="message" id="kontakt-nachricht" rows="4" placeholder="z. B. Friseursalon in Vaterstetten, brauche eine neue Webseite"></textarea></label>
         <p class="formular-hinweis">Ihre Angaben verwende ich nur, um Ihre Anfrage zu beantworten. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
         <p class="formular-fehler" id="formular-fehler" role="alert" hidden></p>
+        <p class="antwortzeit">Antwort in der Regel innerhalb von 24 Stunden.</p>
         <button class="btn voll" type="submit" id="formular-senden">Anfrage senden <span class="pfeil" aria-hidden="true">→</span></button>
       </form>
       <!-- Bestätigung nach erfolgreichem Versand (gleiches Design wie danke.html) -->
@@ -854,6 +873,9 @@
           form.reset();
           form.hidden = true;
           danke.hidden = false;
+          // Links: "So geht's weiter" statt Überschrift und Untertext
+          document.getElementById('kontakt-vorher').hidden = true;
+          document.getElementById('kontakt-nachher').hidden = false;
           danke.focus();
           return;
         }
@@ -980,6 +1002,8 @@ function verlaufPruefen() {
 <!-- Robofy-Chat-Knopf: eigene weiße Sprechblase mit Augen (Grafik direkt eingebettet, Vorlage: img/chat-knopf.svg) statt des im Robofy-Konto hinterlegten Symbols -->
 <style>
   button[aria-label="Open chat"] img[alt="Widget Bubble icon"] { display: none !important; }
+  /* Am Desktop kleiner und näher in die Ecke, damit er keine Inhalte (FAQ-Pfeile, Kästchen) verdeckt */
+  @media (min-width: 768px) { button[aria-label="Open chat"] { width: 46px !important; height: 46px !important; right: 14px !important; bottom: 14px !important; } }
   body:not(.chat-auf) button[aria-label="Open chat"] { background: #ff5a1f url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2056%2056%22%3E%3Cstyle%3E%20.blick%20%7B%20animation%3A%20blick%206s%20ease-in-out%20infinite%3B%20%7D%20.lid%20%7B%20animation%3A%20blinzeln%206s%20linear%20infinite%3B%20transform-origin%3A%2028px%2026px%3B%20%7D%20%40keyframes%20blick%20%7B%200%25%2C%2018%25%20%7B%20transform%3A%20translateX(0)%3B%20%7D%2026%25%2C%2042%25%20%7B%20transform%3A%20translateX(-3.5px)%3B%20%7D%2052%25%2C%2068%25%20%7B%20transform%3A%20translateX(3.5px)%3B%20%7D%2078%25%2C%20100%25%20%7B%20transform%3A%20translateX(0)%3B%20%7D%20%7D%20%40keyframes%20blinzeln%20%7B%200%25%2C%2086%25%2C%2092%25%2C%20100%25%20%7B%20transform%3A%20scaleY(1)%3B%20%7D%2089%25%20%7B%20transform%3A%20scaleY(.12)%3B%20%7D%20%7D%20%40media%20(prefers-reduced-motion%3A%20reduce)%20%7B%20.blick%2C%20.lid%20%7B%20animation%3A%20none%3B%20%7D%20%7D%20%3C%2Fstyle%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M15%2013h26a7%207%200%200%201%207%207v12a7%207%200%200%201-7%207H27l-8%206.5V39h-4a7%207%200%200%201-7-7V20a7%207%200%200%201%207-7z%22%2F%3E%3Cg%20class%3D%22lid%22%3E%3Cg%20class%3D%22blick%22%20fill%3D%22%2307080b%22%3E%3Cellipse%20cx%3D%2221.5%22%20cy%3D%2226%22%20rx%3D%223.4%22%20ry%3D%224.6%22%2F%3E%3Cellipse%20cx%3D%2234.5%22%20cy%3D%2226%22%20rx%3D%223.4%22%20ry%3D%224.6%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E") center / 100% no-repeat !important; }
 </style>
 <script>
